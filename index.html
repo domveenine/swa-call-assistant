@@ -580,7 +580,7 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
   background: rgba(255,255,255,0.22) !important;
   color: #ffffff !important;
   border-color: rgba(255,255,255,0.38) !important;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  text-shadow:none;
   z-index: 3;
 }
 
@@ -738,7 +738,7 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
   border-radius:6px;padding:4px 8px;
   background:rgba(255,255,255,0.22); /* less transparent */
   color:#fff; /* white text for visibility */
-  text-shadow:0 1px 1px rgba(0,0,0,0.35);
+  text-shadow:none;
 }
 
 /* Chevron icon */
@@ -951,7 +951,7 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
   font-size:13px;
   color:#fff;
   letter-spacing:.4px;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  text-shadow:none;
 }
 [data-theme="light"] .clock .time{ color:#0d234d; text-shadow:none; }
 
@@ -969,18 +969,12 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
   font-weight: 800;
   font-size: 15px;
   letter-spacing: 0.6px;
-  color: #ff3333 !important;
-  text-shadow:
-    0 0 2px rgba(255, 51, 51, 0.7),
-    0 0 6px rgba(255, 51, 51, 0.55),
-    0 0 12px rgba(255, 51, 51, 0.35);
+  color:#000;
+  text-shadow:none;
 }
 [data-theme="light"] .clock .time{
-  color: #cc0000 !important;
-  text-shadow:
-    0 0 1px rgba(204, 0, 0, 0.7),
-    0 0 4px rgba(204, 0, 0, 0.45),
-    0 0 8px rgba(204, 0, 0, 0.25);
+  color:#000;
+  text-shadow:none;
 }
 /* Slightly dim the label so time pops */
 .clock .label{
@@ -993,11 +987,11 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 .clock{
   padding: 3px 8px;
   border-radius: 8px;
-  background: rgba(255, 51, 51, 0.06);
+  background:rgba(0,0,0,0.05);
   border-color: rgba(255, 51, 51, 0.25);
 }
 [data-theme="light"] .clock{
-  background: rgba(204, 0, 0, 0.06);
+  background:rgba(0,0,0,0.05);
   border-color: rgba(204, 0, 0, 0.25);
 }
 
@@ -1112,10 +1106,92 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 /* Slight negative margin guard if any line-height or collapsed whitespace shows */
 .clockbar { line-height: 1; }
 .actionbar { line-height: 1; }
+
+/* --- Header wrapper to unify title, clocks, buttons, and reference pills --- */
+.header-wrapper{
+  display:grid;
+  grid-template-rows:auto auto auto auto;
+  gap: 0;
+  width: 100%;
+}
+/* Subtle divider below the header wrapper */
+.header-wrapper + main{
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+/* Keep internal bars tight and aligned */
+.header-wrapper .brandbar,
+.header-wrapper .clockbar,
+.header-wrapper .actionbar,
+.header-wrapper .subhead{
+  margin: 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+/* Slightly reduce pill/square spacing for a tighter feel */
+.header-wrapper .subhead .subhead-row{ gap: 8px; }
+.header-wrapper .pill-row{ gap: 6px; }
+
+
+/* --- Divider above action buttons at bottom of header --- */
+.header-wrapper .actionbar{
+  border-top: 1px solid rgba(255,255,255,0.18) !important;
+  padding-top: 10px;
+  margin-top: 4px;
+  background: linear-gradient(180deg, var(--sw-darkblue) 90%, rgba(0,0,0,0.2) 100%);
+}
+
+
+/* --- Southwest Color Gradient Headers --- */
+.header-wrapper .brandbar,
+.header-wrapper .clockbar,
+.header-wrapper .subhead {
+  background: linear-gradient(90deg, var(--sw-blue) 0%, var(--sw-lightblue) 25%, var(--sw-yellow) 50%, var(--sw-orange) 75%, var(--sw-red) 100%) !important;
+  color: #fff !important;
+}
+.header-wrapper .brandbar .brand-left,
+.header-wrapper .clockbar .clock .label,
+.header-wrapper .clockbar .clock .time,
+.header-wrapper .subhead .subhead-square,
+.header-wrapper .subhead .pill {
+  color: #fff !important;
+}
+/* Subhead squares and pills lightly frosted for legibility */
+.header-wrapper .subhead .subhead-square {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.header-wrapper .subhead .pill {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+
+/* --- Black Text for Header Elements --- */
+.header-wrapper .clockbar .clock .label,
+.header-wrapper .clockbar .clock .time,
+.header-wrapper .subhead,
+.header-wrapper .subhead .subhead-row,
+.header-wrapper .subhead .pill-row,
+.header-wrapper .subhead .pill,
+.header-wrapper .subhead .subhead-square,
+.header-wrapper .brandbar,
+.header-wrapper .brandbar .brand-left,
+.header-wrapper .brandbar .brand-right,
+.header-wrapper .subhead-row span {
+  color: #000 !important;
+}
+
+
+/* --- White Title Text --- */
+.header-wrapper .brandbar .brand-left {
+  color: #fff !important;
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&amp;display=swap" rel="stylesheet"/></head>
 <body data-theme="dark">
 <!-- New Top Action Bar with Buttons that open center modals -->
+<header class="header-wrapper">
 <div class="brandbar">
 <div class="brand-left">Southwest Call Assistant</div>
 <div class="brand-right">
@@ -1130,18 +1206,12 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 <input autocomplete="off" id="search" placeholder="Search this page..." type="search"/>
 </div>
 </div>
-</div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div></div></div><div aria-label="Quick actions" class="actionbar" role="region">
-<button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button>
-<button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button>
-<button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button>
-<button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button>
-<button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button>
-<button aria-controls="modal-stationcodes" aria-haspopup="dialog" class="btn" data-open="modal-stationcodes">Station Codes</button></div>
+</div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div></div></div>
 <div class="subhead">
-<div class="subhead-row">
-<span class="subhead-square">SATWN01CS - Phone</span>
-<span class="subhead-square">DALWN01MO - Mobile</span>
-<span class="subhead-square">DALWN01AA - Online</span>
+<div class="subhead-row" style="justify-content:center; font-weight:700; font-size:15px; color:#fff; letter-spacing:0.5px; gap:30px; display:flex; flex-wrap:wrap;">
+  <span style="margin:0 20px;">SATWN01CS - Phone</span>
+  <span style="margin:0 20px;">DALWN01MO - Mobile</span>
+  <span style="margin:0 20px;">DALWN01AA - Online</span>
 </div>
 <div class="pill-row">
 <span class="pill">Active Duty Military or Dependents</span>
@@ -1151,7 +1221,16 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 <span class="pill">Chase Southwest Credit Card?</span>
 </div>
 </div>
+<div aria-label="Quick actions" class="actionbar" role="region">
+<button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button>
+<button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button>
+<button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button>
+<button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button>
+<button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button>
+<button aria-controls="modal-stationcodes" aria-haspopup="dialog" class="btn" data-open="modal-stationcodes">Station Codes</button></div>
+
 <!-- search dropdown added in brand bar; removed old .tools bar -->
+</header>
 <main id="content">
 <!-- Fare Families -->
 <section class="grid" id="fareGrid">
