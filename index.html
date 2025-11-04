@@ -911,17 +911,212 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
   width: min(95vw, 1200px);
   max-height: 92vh;
 }
+
+/* --- Clock strip in brand bar --- */
+.brandbar { gap: 12px; }
+.brandbar .brand-left { gap: 14px; }
+.clock-strip{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.clock{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 8px;
+  border-radius:8px;
+  background:rgba(255,255,255,0.10);
+  border:1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+}
+[data-theme="light"] .clock{
+  background:rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.15);
+}
+.clock .label{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.2px;
+  color:#fff;
+  opacity:.9;
+}
+[data-theme="light"] .clock .label{ color:#0d234d; opacity:.9; }
+.clock .time{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+  font-weight:900;
+  font-size:13px;
+  color:#fff;
+  letter-spacing:.4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+}
+[data-theme="light"] .clock .time{ color:#0d234d; text-shadow:none; }
+
+/* Center the clocks in the brand bar */
+.brandbar { justify-content: center !important; text-align: center; }
+.brandbar .brand-left { flex: none; }
+.brandbar .clock-strip {
+  justify-content: center;
+  width: 100%;
+}
+
+/* --- LED Aviation-style clock theme --- */
+.clock .time{
+  font-family: 'Orbitron', ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace !important;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.6px;
+  color: #ff3333 !important;
+  text-shadow:
+    0 0 2px rgba(255, 51, 51, 0.7),
+    0 0 6px rgba(255, 51, 51, 0.55),
+    0 0 12px rgba(255, 51, 51, 0.35);
+}
+[data-theme="light"] .clock .time{
+  color: #cc0000 !important;
+  text-shadow:
+    0 0 1px rgba(204, 0, 0, 0.7),
+    0 0 4px rgba(204, 0, 0, 0.45),
+    0 0 8px rgba(204, 0, 0, 0.25);
+}
+/* Slightly dim the label so time pops */
+.clock .label{
+  color: rgba(255,255,255,0.9);
+}
+[data-theme="light"] .clock .label{
+  color: rgba(13,35,77,0.8);
+}
+/* Tighten clock pill for cockpit feel */
+.clock{
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(255, 51, 51, 0.06);
+  border-color: rgba(255, 51, 51, 0.25);
+}
+[data-theme="light"] .clock{
+  background: rgba(204, 0, 0, 0.06);
+  border-color: rgba(204, 0, 0, 0.25);
+}
+
+/* Space between clocks and buttons */
+.actionbar {
+  margin-top: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* --- Header layout fixes --- */
+/* Restore brandbar to two-column alignment and keep title at left */
+.brandbar { justify-content: space-between !important; top: 0 !important; }
+.brandbar .brand-left { display:flex; align-items:center; gap:10px; flex: 1 1 auto !important; }
+
+/* Dedicated clock bar below the brand title row */
+.clockbar{
+  background: var(--sw-darkblue);
+  color: #fff;
+  padding: 6px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 49; /* below brandbar but above content */
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.clockbar .clock-strip{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Place buttons as a normal row (not sticky) to prevent smashing */
+.actionbar {
+  position: static !important;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: var(--sw-darkblue);
+}
+.actionbar .btn{ background: rgba(255,255,255,0.10); }
+.actionbar .btn:hover{ background: rgba(255,255,255,0.18); }
+
+/* Keep the main subhead from overlapping; remove sticky stacking if needed */
+.subhead { top: 0; position: static; box-shadow: none; }
+
+/* --- Unified static header styling --- */
+
+/* Make all header bars the same color and fixed at the top */
+.brandbar, .clockbar, .actionbar {
+  position: static !important;
+  background-color: var(--sw-darkblue);
+  color: #fff;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  z-index: 50;
+}
+
+/* Align and space out all header rows */
+.brandbar, .clockbar, .actionbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Ensure clock and button visuals remain balanced */
+.clockbar .clock-strip { justify-content: center; gap: 10px; }
+.actionbar .btn {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-weight: 600;
+}
+.actionbar .btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+/* Keep the subhead static below headers */
+.subhead {
+  position: static !important;
+  background: var(--sw-darkblue);
+  color: #fff;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+/* --- Remove gap between clock bar and action bar --- */
+.clockbar, .actionbar {
+  margin: 0 !important;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Ensure the two bars visually butt together */
+.clockbar + .actionbar {
+  margin-top: 0 !important;
+}
+
+/* Normalize any stray margins on inner elements */
+.clockbar .clock-strip, .actionbar .btn {
+  margin: 0 !important;
+}
+
+/* Slight negative margin guard if any line-height or collapsed whitespace shows */
+.clockbar { line-height: 1; }
+.actionbar { line-height: 1; }
 </style>
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&amp;display=swap" rel="stylesheet"/></head>
 <body data-theme="dark">
 <!-- New Top Action Bar with Buttons that open center modals -->
-<div aria-label="Quick actions" class="actionbar" role="region">
-<button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button>
-<button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button>
-<button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button>
-<button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button>
-<button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button>
-<button aria-controls="modal-stationcodes" aria-haspopup="dialog" class="btn" data-open="modal-stationcodes">Station Codes</button></div><div class="brandbar">
+<div class="brandbar">
 <div class="brand-left">Southwest Call Assistant</div>
 <div class="brand-right">
 <button class="mode-toggle" id="modeToggle" style="display:none;">Light Mode</button>
@@ -935,7 +1130,13 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 <input autocomplete="off" id="search" placeholder="Search this page..." type="search"/>
 </div>
 </div>
-</div>
+</div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div></div></div><div aria-label="Quick actions" class="actionbar" role="region">
+<button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button>
+<button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button>
+<button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button>
+<button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button>
+<button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button>
+<button aria-controls="modal-stationcodes" aria-haspopup="dialog" class="btn" data-open="modal-stationcodes">Station Codes</button></div>
 <div class="subhead">
 <div class="subhead-row">
 <span class="subhead-square">SATWN01CS - Phone</span>
@@ -1592,7 +1793,6 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 </div>
 </div>
 </div>
-
 <script>
   // Reconnect modal close behavior for dynamically added modals (like Station Codes)
   document.addEventListener('DOMContentLoaded', () => {
@@ -1623,6 +1823,27 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
       }
     });
   });
+</script>
+<script>
+(function(){
+  const fmt = (tz) => new Intl.DateTimeFormat(undefined, {
+    hour: 'numeric', minute: '2-digit',
+    hour12: true, timeZone: tz
+  });
+  function tick(){
+    document.querySelectorAll('.clock[data-tz]').forEach(el => {
+      const tz = el.getAttribute('data-tz');
+      const timeEl = el.querySelector('.time');
+      try {
+        timeEl.textContent = fmt(tz).format(new Date());
+      } catch(e) {
+        timeEl.textContent = '--:-- --';
+      }
+    });
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
 </script>
 </body>
 </html>
