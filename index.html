@@ -834,6 +834,71 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 #fareGrid .badge.silver { background: #C0C0C0; color: #000; } /* Premium */
 #fareGrid .badge.green { background: #00B050; color: #fff; } /* Top Pick */
 
+
+/* Readability enhancements for Compliance modal */
+#modal-compliance-overlay .modal-body {
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+#modal-compliance-overlay .modal-body .section {
+  padding: 10px 0 12px;
+  border-bottom: 1px dashed var(--line);
+}
+#modal-compliance-overlay .modal-body .section:last-of-type {
+  border-bottom: none;
+}
+
+#modal-compliance-overlay .modal-body h4 {
+  margin: 0 0 8px 0 !important;
+  font-size: 14.5px !important;
+  font-weight: 800;
+  color: #fff !important;
+  background: rgba(0, 102, 204, 0.85);
+  padding: 6px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+#modal-compliance-overlay .modal-body .kicker {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+#modal-compliance-overlay .modal-body ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+#modal-compliance-overlay .modal-body ul li {
+  padding: 4px 0;
+  line-height: 1.45;
+}
+
+#modal-compliance-overlay .modal-body ul li:last-child {
+  border-bottom: none;
+}
+
+
+#modal-compliance-overlay .modal-body .subhead {
+  font-weight: 800;
+  margin: 10px 0 6px;
+  font-size: 13.5px;
+  color: #a8c8ff; /* lighter blue for better readability */
+  background: none;
+  border: none;
+  position: static;
+}
+
+
+#modal-compliance-overlay .modal-body .note {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+
 </style>
 </head>
 <body data-theme="dark">
@@ -843,8 +908,8 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 <button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button>
 <button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button>
 <button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button>
-</div>
-<div class="brandbar">
+<button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button>
+</div><div class="brandbar">
 <div class="brand-left">Southwest Call Assistant</div>
 <div class="brand-right">
 <button class="mode-toggle" id="modeToggle" style="display:none;">Light Mode</button>
@@ -1198,6 +1263,110 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 </div>
 </div>
 </div>
+<!-- Compliance Modal -->
+<div aria-hidden="true" class="modal-overlay" data-overlay="modal-compliance" id="modal-compliance-overlay">
+  <div aria-labelledby="modal-compliance-title" aria-modal="true" class="modal" role="dialog">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-compliance-title">Compliance</h2>
+      <button aria-label="Close dialog" class="modal-close" data-close="modal-compliance">×</button>
+    </div>
+<div class="modal-body">
+  <div class="section">
+    <h4>In-Cabin Pets</h4>
+    <ul>
+      <li>Pet fare: $125 each way per pet carrier, paid at the ticket counter.</li>
+      <li>Hawaii exception: Pets are not accepted to/from Hawaii; however, dogs and cats are permitted on inter-island flights for $35 each way per pet carrier.</li>
+      <li>One carrier per Customer; the carrier counts as a carryon or personal item.</li>
+      <li>Pet carrier must fit under the seat, and pets must remain fully inside the carrier (including head and tail) for the entire flight.</li>
+      <li>More information is available at Southwest.com.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>Service Animals (SVANs)</h4>
+    <ul>
+      <li>Only service dogs trained to perform tasks for a person with a disability are accepted.</li>
+      <li>A DOT Service Animal Transportation Form must be presented at the ticket counter or gate on the day of travel.</li>
+      <li>CATIS (Customer Advised To Inform Station) applies.</li>
+      <li>More information is available at Southwest.com.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>Unaccompanied Minor (UM)</h4>
+    <ul>
+      <li>Applies to children ages 5–11 traveling without a Passenger 12 years or older.</li>
+      <li>Must present a birth certificate or valid ID showing date of birth.</li>
+      <li>Fee: $100 each way ($35 each way for Hawaii inter-island travel).</li>
+      <li>Travel is limited to domestic nonstop or direct flights only.</li>
+    </ul>
+
+    <div class="subhead">UM Drop-Off Requirements</div>
+    <ul>
+      <li>When dropping off a UM, the escort must: Show ID and obtain an escort pass at the ticket counter.</li>
+      <li>Arrive at the gate at least 45 minutes prior to departure.</li>
+      <li>Remain in the gate area until the flight is airborne.</li>
+    </ul>
+
+    <div class="subhead">UM Pick-Up Requirements</div>
+    <ul>
+      <li>When picking up a UM, the escort must: Show ID and obtain an escort pass at the ticket counter.</li>
+      <li>If the ticket counter is closed, they may visit the BSO (Baggage Service Office).</li>
+      <li>Arrive at the gate at least 45 minutes prior to arrival.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>Young Traveler (YT)</h4>
+    <ul>
+      <li>Applies to travelers ages 12–17 traveling without a Passenger 18 years or older.</li>
+      <li>Verify Parent/Guardian information in ARD.</li>
+      <li>Confirm the itinerary is domestic only (no international travel permitted).</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>Lap Child</h4>
+    <ul>
+      <li>Proof of age may be required. Acceptable proof includes an original or photocopied government-issued ID (e.g., birth certificate).</li>
+      <li>A Boarding Verification Document (BVD) must be issued at a kiosk, ticket counter, or digitally via the mobile app or desktop.</li>
+      <li>The BVD allows the child to pass through security and ensures they appear on the flight manifest.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>Customers with Disabilities</h4>
+    <ul>
+      <li>Advise CATIS (Customer Advised To Inform Station).</li>
+      <li>Document the reservation accurately.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>No Show</h4>
+    <ul>
+      <li>Reservations must be canceled at least 10 minutes before departure to avoid forfeiture of funds.</li>
+      <li>This includes bookings created with Points, RTFs, and SLVs.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4>Rapid Rewards 100% Verification</h4>
+    <p>A 100% verification is required if the Customer is not a 1:1 or multi-match in C360, or is redeeming points from another Member’s account. Verify using the following:</p>
+    <ul>
+      <li>Keyword (if applicable)</li>
+      <li>First and Last Name on the account (if not already provided)</li>
+      <li>Email or full mailing address, including ZIP code</li>
+      <li>Date of Birth of the Member</li>
+      <li>Last date and city pairs of travel</li>
+      <li>Last date and type of Partner activity</li>
+    </ul>
+  </div></div>
+</div>
+
+  </div>
+</div>
+
 <script>
     // Dark/Light toggle
     const toggle = document.getElementById('modeToggle');
