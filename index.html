@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Southwest Call Assistant</title>
+<style>
+    :root{
+      --sw-blue:#304CB2;
+      --sw-yellow:#FFB612;
+      --sw-red:#C8102E;
+      --sw-orange:#FF8200;
+      --sw-lightblue:#00ADEF;
+      --sw-darkblue:#0f1f6b;
+      --ink:#0b1221;
+      --bg:#f7f8fc;
+      --card:#ffffff;
+      --line:#e7e9f3;
+      --muted:#5b6a91;
+      --overlay: rgba(2,6,23,0.55);
+    }
+
+    [data-theme="dark"]{
+      --bg:#0b1221;
+      --ink:#f7f8ff;
+      --card:#1b2653;
+      --line:#3b4a7a;
+      --muted:#c7d2fe;
+      --overlay: rgba(3,7,18,0.7);
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);transition:background .3s,color .3s}
+
+    /* Action Bar (very top) */
+    .actionbar{
+      background:var(--sw-darkblue);
+      color:#fff;
+      padding:8px 12px;
+      position:sticky;
+      top:0;
+      z-index:60;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 2px 6px rgba(0,0,0,.35);
+    }
+    .actionbar .btn{
+      background:rgba(255,255,255,0.1);
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.2);
+      padding:6px 10px;
+      border-radius:9px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.2px;
+      cursor:pointer;
+      transition:transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .actionbar .btn:hover{ background:rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
+    .actionbar .btn:active{ transform: translateY(1px); }
+
+    /* Brand Bar (kept as-is, now sits under actionbar) */
+    .brandbar{background:var(--sw-darkblue);color:#fff;padding:10px 20px;font-weight:800;position:sticky;top:42px;z-index:50;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+    .brand-left{display:flex;align-items:center;gap:10px}
+    .brand-right{display:flex;align-items:center;gap:10px}
+
+    /* Header Pills */
+    .subhead{background:linear-gradient(90deg,var(--sw-blue),var(--sw-lightblue));color:#fff;padding:10px;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px;position:sticky;top:92px;z-index:49;box-shadow:0 2px 5px rgba(0,0,0,.2)}
+    .subhead-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .subhead-square{background:linear-gradient(180deg,#304CB2,#4865CC);color:#ffffff;border:1px solid rgba(255,255,255,0.25);padding:8px 12px;border-radius:10px;font-size:13px;font-weight:800;text-align:center;min-width:160px;box-shadow:0 2px 5px rgba(0,0,0,.15)}
+
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+    .pill{background:#E8EEFF;color:#0f1f6b;border:1px solid #C9D3FF;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+    .mode-toggle{background:var(--sw-yellow);color:#000;border:none;padding:4px 8px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px;transition:background .3s}
+    .mode-toggle:hover{background:#ffe066}
+
+    /* Search Dropdown in Brand Bar */
+.brand-right{position:relative;}
+.icon-btn{appearance:none;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:#fff;border-radius:9px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,border-color .2s,transform .08s;}
+.icon-btn:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);}.icon-btn:active{transform:translateY(1px);}.search-dropdown{position:absolute;right:0;top:calc(100% + 8px);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:8px;width:min(360px,80vw);display:none;z-index:70;}
+.search-dropdown.open{display:block;}
+.search-dropdown input{width:100%;padding:8px 12px;border:2px solid var(--sw-yellow);border-radius:9px;font-size:13px;background:var(--bg);color:var(--ink);font-weight:600;outline:none;}
+.search-dropdown input:focus{border-color:var(--sw-lightblue);background:var(--card);box-shadow:0 0 8px var(--sw-lightblue);}
+
+main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
+
+    /* Shared card styles */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;align-items:start}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 6px rgba(16,24,40,.06);padding:14px;position:relative;display:flex;flex-direction:column;gap:8px;transition:transform .2s,box-shadow .2s}
+    .card:hover{transform:translateY(-3px);box-shadow:0 8px 16px rgba(0,0,0,.15)}
+    .card header{margin-top:34px;margin-bottom:4px;text-align:center}
+    .title{margin:0;font-size:16px;font-weight:800;color:var(--ink)}
+    .subtitle{font-size:12px;color:var(--muted);margin:0}
+    ul{list-style:none;margin:8px 0 0 0;padding:0;font-size:13px;line-height:1.45;text-align:left}
+    li{padding:3px 0;border-bottom:1px dashed var(--line)}
+    li:last-child{border-bottom:none}
+
+    /* Fare Family accents */
+    /* removed old fare family border accents */
+
+    .code-chip{position:absolute;top:26px;left:10px;font-size:11px;font-weight:900;letter-spacing:.3px;background:#eef1ff;color:#23348a;border:1px solid #c9d1ff;border-radius:6px;padding:4px 8px;z-index:2}
+    [data-theme="dark"] .code-chip{background:rgba(255,255,255,.12);color:#e6ecff;border-color:#5b6a91}
+
+    .topbar-right{position:absolute;top:26px;right:10px;display:flex;align-items:center;gap:6px;z-index:2}
+    .badge{background:var(--sw-yellow);padding:3px 7px;border-radius:6px;font-size:11px;font-weight:800;color:#222}
+    .badge.warn{background:var(--sw-red);color:#fff}
+    .points{background:#0b1221;color:#fff;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900}
+
+    /* Small header accent */
+    h3.title::after{content:'';display:block;width:40px;height:3px;background:var(--sw-yellow);margin:6px auto;border-radius:2px}
+
+    footer{background:var(--sw-darkblue);color:#e6ecff;padding:20px;text-align:center;font-size:13px;margin-top:40px;box-shadow:inset 0 2px 6px rgba(0,0,0,.4)}
+    footer h3{margin-bottom:10px;color:var(--sw-yellow)}
+
+    /* Slim Southwest Bag Policy card */
+    .card.bag-policy-slim{
+      max-width:400px;
+      margin:14px auto 0;
+      padding:10px 12px;
+      border-top:5px solid var(--sw-darkblue);
+      box-shadow:0 0 10px rgba(0,173,239,0.4), 0 2px 6px rgba(16,24,40,.06);
+    }
+    .card.bag-policy-slim header{margin-top:6px;margin-bottom:0;text-align:center}
+    .card.bag-policy-slim .title{font-size:15px}
+    .card.bag-policy-slim .subtitle{font-size:11px}
+    .card.bag-policy-slim ul{font-size:12px;line-height:1.35;margin-top:6px}
+    .card.bag-policy-slim li{padding:2px 0}
+
+    /* ---------- Modal styles ---------- */
+    .modal-overlay{
+      position: fixed;
+      inset: 0;
+      background: var(--overlay);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal-overlay.active{ display:flex; }
+    .modal{
+      background: var(--card);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      width: min(720px, 92vw);
+      max-height: 82vh;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      transform: scale(.98);
+      transition: transform .18s ease;
+    }
+    .modal-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(90deg, var(--sw-blue), var(--sw-lightblue));
+      color:#fff;
+    }
+    .modal-title{font-size:14px;font-weight:900;letter-spacing:.2px;margin:0}
+    .modal-close{
+      appearance:none;
+      border:none;
+      background:rgba(255,255,255,0.15);
+      color:#fff;
+      padding:6px 10px;
+      border-radius:8px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .modal-body{
+      padding:14px;
+      overflow:auto;
+      font-size:14px;
+      line-height:1.45;
+    }
+    .modal-body h4{
+      margin:8px 0 6px;
+      font-size:13px;
+      color:var(--sw-blue);
+    }
+    .modal-body ul{margin:6px 0 10px 0;padding-left:0;}
+    .modal-body li{border-bottom:none;padding:2px 0;}
+
+    .modal-overlay.active .modal{ transform: scale(1); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  
+    /* ---------- Flip Card styles for Response To Complaint ---------- */
+    .flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;align-items:stretch}
+    .flip{perspective:1000px;height:230px}
+    .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s ease}
+    .flip.is-flipped .flip-inner{transform:rotateY(180deg)}
+    .flip-face{
+      position:absolute;inset:0;border:1px solid var(--line);border-radius:14px;
+      background:var(--card);color:var(--ink);box-shadow:0 2px 6px rgba(16,24,40,.06);
+      display:flex;flex-direction:column;justify-content:center;align-items:center;
+      padding:14px;text-align:center;backface-visibility:hidden;
+    }
+    .flip-front{}
+    .flip-back{transform:rotateY(180deg);overflow:auto;padding:16px}
+    .flip-btn{
+      all:unset;cursor:pointer;display:block;width:100%;height:100%;
+      border-radius:14px;outline-offset:3px;
+    }
+    .flip-title{font-weight:900;font-size:15px;margin:4px 0}
+    .flip-hint{font-size:11px;color:var(--muted);margin-top:6px}
+    .flip-back p{margin:0;font-size:13px;line-height:1.45}
+    
+    /* ---------- Unified Tier Status card styles ---------- */
+    .tier-unified{padding:18px 16px}
+    .tier-wrap{display:grid;gap:14px}
+    .tier-section{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+    }
+    [data-theme="light"] .tier-section{background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));}
+    .tier-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+    .tier-title{margin:0;font-size:15px;font-weight:900;color:var(--ink)}
+    .tier-sub{margin:0;font-size:12px;color:var(--muted)}
+    .tier-body{font-size:13px;line-height:1.45;margin-top:6px}
+    .tier-body ul{margin:0;padding-left:0}
+    .tier-body li{border-bottom:none;padding:2px 0}
+    
+    /* ---------- Compact Flip Tile Styles for Card Types and Tier Status ---------- */
+    .tier-unified .flip {
+      perspective: 1000px;
+      height: 160px; /* smaller than complaint tiles */
+    }
+    .tier-unified .flip-inner {
+      transition: transform 0.45s ease;
+    }
+    .tier-unified .flip-face {
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    .tier-unified .flip-front {
+      background: linear-gradient(180deg, var(--sw-blue), var(--sw-lightblue));
+      color: #fff;
+      font-weight: 800;
+      text-align: center;
+      padding: 10px;
+    }
+    .tier-unified .flip-front .tier-title {
+      color: #fff;
+      font-size: 16px;
+      margin: 6px 0;
+    }
+    .tier-unified .flip-front .flip-hint {
+      font-size: 11px;
+      color: rgba(255,255,255,0.9);
+    }
+    .tier-unified .flip-back {
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .tier-unified .flip-back ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .tier-unified .flip-back li {
+      padding: 2px 0;
+    }
+    
+    /* ---------- Compact Flip Tile Layout (3 per row) ---------- */
+    .tier-unified .tier-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      justify-items: center;
+    }
+
+    /* Compact flip size */
+    .tier-unified .flip {
+      perspective: 1000px;
+      height: 140px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    /* Flip inner transition */
+    .tier-unified .flip-inner {
+      transition: transform 0.4s ease;
+    }
+
+    /* Shared front style base */
+    .tier-unified .flip-front {
+      text-align: center;
+      font-weight: 800;
+      padding: 10px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+
+    /* Card Types lighter blue gradient */
+    /* removed #cardTypes .flip-front */
+
+    /* Tier Status lighter gold gradient */
+    /* removed #tierStatus .flip-front */
+
+    /* Hint and title */
+    .tier-unified .flip-front .tier-title {
+      font-size: 13px;
+      margin: 4px 0 2px;
+    }
+    .tier-unified .flip-front .flip-hint {
+      font-size: 11px;
+      color: rgba(0,0,0,0.65);
+    }
+
+    /* Back side */
+    .tier-unified .flip-back {
+      padding: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+      background: var(--card);
+      color: var(--ink);
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+
+    .tier-unified .flip-back ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .tier-unified .flip-back li {
+      padding: 2px 0;
+    }
+    
+    /* ---------- Dense 3-per-row layout, similar to complaint tiles ---------- */
+    .tier-unified .tier-wrap{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px; /* tighter spacing */
+      justify-items: stretch;
+      align-items: stretch;
+    }
+    @media (max-width: 900px){
+      .tier-unified .tier-wrap{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px){
+      .tier-unified .tier-wrap{ grid-template-columns: 1fr; }
+    }
+
+    .tier-unified .flip{
+      perspective: 1000px;
+      height: 170px; /* a bit taller for readability */
+      width: 100%;   /* stretch to column width */
+      max-width: none; /* no max width cap */
+    }
+    .tier-unified .flip-face{
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      box-shadow: 0 2px 6px rgba(16,24,40,.06);
+    }
+    /* Fronts: closer to complaint tiles but lightly tinted */
+    
+#cardTypes .flip-front[data-entry="card-priority-performance"] {
+  background: linear-gradient(180deg, #304CB2, #4865CC);
+  color: #ffffff;
+}
+#cardTypes .flip-front[data-entry="card-premier"] {
+  background: linear-gradient(180deg, #E51937, #F1565F);
+  color: #ffffff;
+}
+#cardTypes .flip-front[data-entry="card-plus"] {
+  background: linear-gradient(180deg, #FFBF27, #FFD65C);
+  color: #2E2E2E;
+}
+
+    
+#tierStatus .flip-front[data-entry="tier-alist-preferred"] {
+  background: linear-gradient(180deg, #C7D3FA, #AFC0F5);
+  color: #0D234D;
+}
+#tierStatus .flip-front[data-entry="tier-alist"] {
+  background: linear-gradient(180deg, #F8B2B7, #F39CA3);
+  color: #4A0B0B;
+}
+#tierStatus .flip-front[data-entry="tier-companion"] {
+  background: linear-gradient(180deg, #FFE7A8, #FFEBBC);
+  color: #3B3100;
+}
+
+    .tier-unified .flip-front{
+      font-weight: 900;
+      text-align:center;
+      padding: 10px 10px;
+    }
+    .tier-unified .flip-front .tier-title{
+      font-size: 16px;
+      margin: 6px 0 2px;
+    }
+    .tier-unified .flip-front .flip-hint{
+      font-size: 11px;
+      opacity:.85;
+    }
+    .tier-unified .flip-back{
+      background: var(--card);
+      color: var(--ink);
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .tier-unified .flip-back ul{margin:0;padding:0;list-style:none}
+    .tier-unified .flip-back li{padding:2px 0}
+    
+/* --- Brand tile fronts by row and entry (Card Types = classic; Tier Status = lighter) --- */
+#cardTypes .flip[data-entry="card-priority-performance"] .flip-front {
+  background: linear-gradient(180deg, #304CB2, #4865CC);
+  color: #ffffff;
+}
+#cardTypes .flip[data-entry="card-premier"] .flip-front {
+  background: linear-gradient(180deg, #E51937, #F1565F);
+  color: #ffffff;
+}
+#cardTypes .flip[data-entry="card-plus"] .flip-front {
+  background: linear-gradient(180deg, #FFBF27, #FFD65C);
+  color: #2E2E2E;
+}
+
+#tierStatus .flip[data-entry="tier-alist-preferred"] .flip-front {background: linear-gradient(180deg, #98ACE0, #7D92D1); color: #0D234D;}
+#tierStatus .flip[data-entry="tier-alist"] .flip-front {background: linear-gradient(180deg, #E87C84, #D15F67); color: #3B0000;}
+#tierStatus .flip[data-entry="tier-companion"] .flip-front {background: linear-gradient(180deg, #FFDD77, #FFCC44); color: #3B3100;}
+
+
+/* ---------- Two-column benefits layout with stacked tiles ---------- */
+.benefits-two-col{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items:start;
+  margin-top: 20px;
+}
+@media (max-width: 900px){
+  .benefits-two-col{ grid-template-columns: 1fr; }
+}
+.benefits-two-col .benefits-col h2{
+  text-align:center;
+  margin: 12px 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+}
+/* Stack tiles vertically inside each column */
+.benefits-two-col .tier-unified .tier-wrap{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+/* Compact tile size to save vertical space */
+.benefits-two-col .tier-unified .flip{
+  height: 150px;
+}
+
+
+/* ---------- Fare Family card refresh ---------- */
+/* Uniform size and medium-gray background */
+
+#fareGrid .card{
+  background: linear-gradient(180deg, #0d1a40 0%, #182a60 100%);
+  color: #f5f7fa;
+  min-height: 260px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#fareGrid .card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* Remove any previous border-top accents just in case */
+
+#fareGrid .card{
+  background: linear-gradient(180deg, #0d1a40 0%, #182a60 100%);
+  color: #f5f7fa;
+  min-height: 260px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#fareGrid .card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+
+/* Top accent bar */
+#fareGrid .card::before{
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background: transparent;
+  transition: filter .2s ease;
+}
+
+/* Thicker rounded tab on the top-right for separation */
+#fareGrid .card::after{
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  width: 34px; height: 18px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  background: transparent;
+  transition: filter .2s ease;
+}
+
+/* Hover animation: subtly brighten the accent */
+#fareGrid .card:hover::before,
+#fareGrid .card:hover::after{
+  filter: brightness(1.08);
+}
+
+/* Color assignments (using your mapping)
+   Basic (WGA) → Dark Blue #304CB2
+   Choice (WGA+) → Light Blue #9CC4FF
+   Choice Preferred (ANY) → Red #E51937
+   Choice Extra (BUS) → Yellow #FFBF27
+*/
+#fareGrid .card[data-fare="WGA"]::before,
+#fareGrid .card[data-fare="WGA"]::after{ background: #304CB2; }
+
+#fareGrid .card[data-fare="WGA+"]::before,
+#fareGrid .card[data-fare="WGA+"]::after{ background: #9CC4FF; }
+
+#fareGrid .card[data-fare="ANY"]::before,
+#fareGrid .card[data-fare="ANY"]::after{ background: #E51937; }
+
+#fareGrid .card[data-fare="BUS"]::before,
+#fareGrid .card[data-fare="BUS"]::after{ background: #FFBF27; }
+
+/* Ensure internal chip and text remain readable on gray */
+#fareGrid .card .code-chip{
+  background: rgba(0,0,0,0.08);
+  color: #0d234d;
+  border-color: rgba(0,0,0,0.12);
+}
+
+
+/* Tighter spacing for Fare Family card headers after removing subtitles */
+#fareGrid .card header{ margin-top: 42px; margin-bottom: 6px; }
+
+
+/* Higher-contrast code-chip on dark glossy Fare Family cards */
+#fareGrid .card .code-chip{
+  background: rgba(255,255,255,0.22) !important;
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,0.38) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  z-index: 3;
+}
+
+
+#modal-bagpolicy-overlay h4 {
+  color: var(--sw-yellow);
+}
+#modal-bagpolicy-overlay .price {
+  color: var(--sw-red);
+  font-weight: 700;
+}
+
+
+/* --- Tabs (shared) --- */
+.tabs { border:1px solid var(--line); border-radius:12px; background:var(--card); box-shadow:0 2px 6px rgba(16,24,40,.06); }
+.tab-list { display:flex; gap:6px; padding:8px; background:linear-gradient(90deg, var(--sw-blue), var(--sw-lightblue)); }
+.tab-list button {
+  appearance:none; border:none; cursor:pointer; font-weight:900; letter-spacing:.2px;
+  padding:8px 12px; border-radius:10px; color:#fff; background:rgba(255,255,255,0.18);
+}
+.tab-list button[aria-selected="true"] { background:#fff; color:#0d234d; }
+.tab-panels { padding:12px; }
+.tab-panel { display:none; }
+.tab-panel[data-active="true"] { display:block; }
+
+/* Small feature list */
+.perk-list { list-style:none; margin:0; padding:0; font-size:13px; line-height:1.45; }
+.perk-list li { padding:4px 0; border-bottom:1px dashed var(--line); }
+.perk-list li:last-child { border-bottom:none; }
+
+/* Color tags on panel titles (keeps your brand mapping) */
+.tag { display:inline-block; font-size:11px; font-weight:900; border-radius:6px; padding:4px 8px; margin-left:8px; }
+.tag.blue { background:#304CB2; color:#fff; }
+.tag.red { background:#E51937; color:#fff; }
+.tag.gold { background:#FFBF27; color:#2E2E2E; }
+
+/* Panel headings */
+.panel-title { margin:0 0 8px; font-size:16px; font-weight:900; }
+.panel-sub { margin:0 0 12px; font-size:12px; color:var(--muted); }
+
+
+/* --- Option 3: Color-coded benefit cards (no flip) --- */
+.benefit-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:10px}
+.benefit-card{
+  position:relative;background:var(--card);color:var(--ink);
+  border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 6px rgba(16,24,40,.06);
+  padding:12px 12px 14px;transition:transform .2s ease, box-shadow .2s ease;
+}
+.benefit-card:hover{transform:translateY(-2px);box-shadow:0 8px 14px rgba(0,0,0,.25)}
+.benefit-card .accent{position:absolute;left:0;right:0;top:0;height:8px;border-top-left-radius:12px;border-top-right-radius:12px;background:#304CB2}
+.benefit-card[data-tone="blue"] .accent{background:#304CB2}
+.benefit-card[data-tone="red"] .accent{background:#E51937}
+.benefit-card[data-tone="gold"] .accent{background:#FFBF27}
+.benefit-card[data-tone="ltblue"] .accent{background:#98ACE0}
+.benefit-card[data-tone="rose"] .accent{background:#E87C84}
+.benefit-card[data-tone="sun"] .accent{background:#FFDD77}
+
+.benefit-card h4{margin:8px 0 2px;font-size:15px;font-weight:900}
+.benefit-card .codes{display:inline-block;font-size:11px;font-weight:900;border:1px solid var(--line);border-radius:6px;padding:3px 6px;margin-top:4px;background:rgba(0,0,0,0.06)}
+[data-theme="dark"] .benefit-card .codes{background:rgba(255,255,255,0.08)}
+
+.benefit-card .perk-list{list-style:none;margin:8px 0 0;padding:0;font-size:13px;line-height:1.45}
+.benefit-card .perk-list li{padding:4px 0;border-bottom:1px dashed var(--line)}
+.benefit-card .perk-list li:last-child{border-bottom:none}
+
+.perk{display:flex;align-items:flex-start;gap:8px}
+.perk svg{flex:0 0 16px;height:16px;width:16px;opacity:.9}
+
+
+/* --- Option 2: Accordion / Expandable lists --- */
+.accordion{border:1px solid var(--line);border-radius:12px;background:var(--card);box-shadow:0 2px 6px rgba(16,24,40,.06)}
+.acc-item + .acc-item{border-top:1px dashed var(--line)}
+.acc-header{width:100%;text-align:left;appearance:none;border:0;background:transparent;cursor:pointer;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.acc-title{margin:0;font-size:15px;font-weight:900}
+.acc-codes{font-size:11px;font-weight:900;border:1px solid var(--line);border-radius:6px;padding:3px 6px;background:rgba(0,0,0,0.06)}
+[data-theme="dark"] .acc-codes{background:rgba(255,255,255,0.08)}
+.acc-chevron{transition:transform .18s ease;flex:0 0 16px}
+.acc-header[aria-expanded="true"] .acc-chevron{transform:rotate(180deg)}
+.acc-panel{display:none;padding:0 14px 14px}
+.acc-panel[aria-hidden="false"]{display:block}
+.acc-note{margin:0 0 8px;font-size:12px;color:var(--muted)}
+.acc-list{list-style:none;margin:0;padding:0;font-size:13px;line-height:1.45}
+.acc-list li{padding:4px 0;border-bottom:1px dashed var(--line)}
+.acc-list li:last-child{border-bottom:none}
+
+/* Accent bars per item (top border) */
+.acc-item[data-tone="blue"]{border-left:4px solid #304CB2;border-top-left-radius:12px}
+.acc-item[data-tone="red"]{border-left:4px solid #E51937;border-top-left-radius:12px}
+.acc-item[data-tone="gold"]{border-left:4px solid #FFBF27;border-top-left-radius:12px}
+.acc-item[data-tone="ltblue"]{border-left:4px solid #98ACE0;border-top-left-radius:12px}
+.acc-item[data-tone="rose"]{border-left:4px solid #E87C84;border-top-left-radius:12px}
+.acc-item[data-tone="sun"]{border-left:4px solid #FFDD77;border-top-left-radius:12px}
+
+
+/* --- Hybrid: Accordion mechanics (Opt 2) + Option 1 look/typography/colors --- */
+/* --- Sleeker left bars adjustment --- */
+.acc-item .left-bar{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:6px; /* thinner for sleek look */
+  border-radius:10px 0 0 10px;
+  opacity:0.85; /* smooth visibility */
+  filter:brightness(0.95);
+  background:linear-gradient(180deg,rgba(255,255,255,0.2) 0%,rgba(0,0,0,0.1) 100%);
+}
+.acc-item[data-tone="blue"] .left-bar{background:linear-gradient(180deg,#3e54c5 0%,#2a3a87 100%)}
+.acc-item[data-tone="red"] .left-bar{background:linear-gradient(180deg,#ff324d 0%,#b31527 100%)}
+.acc-item[data-tone="gold"] .left-bar{background:linear-gradient(180deg,#ffd24c 0%,#d49c00 100%)}
+.acc-item[data-tone="ltblue"] .left-bar{background:linear-gradient(180deg,#9db6ff 0%,#4a6ab7 100%)}
+.acc-item[data-tone="rose"] .left-bar{background:linear-gradient(180deg,#f19aa1 0%,#c65d67 100%)}
+.acc-item[data-tone="sun"] .left-bar{background:linear-gradient(180deg,#ffe990 0%,#e8b94c 100%)}
+
+/* Card container polish */
+.accordion{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--card);
+  box-shadow:0 2px 6px rgba(16,24,40,.06);
+  overflow:hidden;
+}
+
+/* Each item uses a bold left color bar like Option 1 */
+.acc-item{position:relative;}
+.acc-item .left-bar{
+  position:absolute;left:0;top:0;bottom:0;width:10px;border-radius:12px 0 0 0;
+}
+.acc-item[data-tone="blue"] .left-bar{background:#304CB2}
+.acc-item[data-tone="red"] .left-bar{background:#E51937}
+.acc-item[data-tone="gold"] .left-bar{background:#FFBF27}
+.acc-item[data-tone="ltblue"] .left-bar{background:#98ACE0}
+.acc-item[data-tone="rose"] .left-bar{background:#E87C84}
+.acc-item[data-tone="sun"] .left-bar{background:#FFDD77}
+
+/* Header adopts a dark glossy panel so white titles pop */
+.acc-header{
+  width:100%;text-align:left;appearance:none;border:0;cursor:pointer;
+  padding:14px 16px 12px 18px; /* breathing room */
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:linear-gradient(180deg,#0d1a40 0%,#182a60 100%);
+  color:#fff; /* make titles white */
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,0.04);
+  transition:filter .15s ease, background .2s ease;
+}
+.acc-item + .acc-item .acc-header{border-top:1px dashed var(--line)}
+.acc-header:hover{filter:brightness(1.06)}
+
+.acc-title{margin:0;font-size:16px;font-weight:900;letter-spacing:.2px;color:#fff}
+
+/* Code chips: higher contrast and less transparent */
+.acc-codes{
+  font-size:11px;font-weight:900;
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:6px;padding:4px 8px;
+  background:rgba(255,255,255,0.22); /* less transparent */
+  color:#fff; /* white text for visibility */
+  text-shadow:0 1px 1px rgba(0,0,0,0.35);
+}
+
+/* Chevron icon */
+.acc-chevron{transition:transform .18s ease;flex:0 0 16px;height:16px;width:16px;opacity:.95;fill:currentColor}
+.acc-header[aria-expanded="true"] .acc-chevron{transform:rotate(180deg)}
+
+/* Panel body uses clean typography from Option 1 */
+.acc-panel{display:none;padding:12px 18px 16px;background:var(--card);}
+.acc-panel[aria-hidden="false"]{display:block}
+.acc-note{margin:0 0 8px;font-size:12px;color:var(--muted)}
+.acc-list{list-style:none;margin:0;padding:0;font-size:13px;line-height:1.45}
+.acc-list li{padding:6px 0;border-bottom:1px dashed var(--line)}
+.acc-list li:last-child{border-bottom:none}
+
+
+/* --- Smooth, aligned left bars per item --- */
+.accordion{ --barw: 6px; border-radius:12px; overflow:hidden; }
+
+.acc-item{ position:relative; overflow:hidden; }
+.acc-item .left-bar{
+  position:absolute; left:0; top:0; bottom:0; width:var(--barw);
+  border-radius:0; /* avoid layered rounding on each header */
+}
+/* round only the very first and last items to match container */
+.acc-item:first-child .left-bar{ border-top-left-radius:12px; }
+.acc-item:last-child .left-bar{ border-bottom-left-radius:12px; }
+
+/* give header extra left padding so text never overlaps the bar */
+.acc-header{ padding-left: calc(18px + var(--barw)); border-top:none !important; }
+.acc-item + .acc-item .acc-header{ border-top:none !important; } /* kill old dashed rule */
+
+/* draw the divider line ourselves, skipping the bar region */
+.acc-item + .acc-item::before{
+  content:""; position:absolute; left:var(--barw); right:0; top:0; height:1px;
+  background:var(--line); opacity:.7;
+}
+
+/* optional: nudge header gradient so it doesn't cause seams near the bar */
+.acc-header{ background-clip: padding-box; }
+
+/* retain the refined, softer gradient bars */
+
+
+/* Instruction helper under section titles */
+.section-instruction{
+  margin: 4px 0 10px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+
+/* --- Center card titles and details (chevron stays right) --- */
+.acc-header{
+  text-align:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:6px;
+  position:relative;
+}
+.acc-title{
+  text-align:center;
+  width:100%;
+}
+.acc-codes{
+  margin-top:4px;
+  margin-bottom:4px;
+  text-align:center;
+}
+.acc-chevron{
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+}
+.acc-panel{
+  text-align:center;
+}
+.acc-list li{
+  text-align:center;
+}
+
+
+#fareGrid .badge {
+  background: var(--sw-yellow);
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #222;
+}
+#fareGrid .badge.warn { background: var(--sw-red); color: #fff; }
+#fareGrid .badge.silver { background: #C0C0C0; color: #000; } /* Premium */
+#fareGrid .badge.green { background: #00B050; color: #fff; } /* Top Pick */
+
+</style>
+</head>
+<body data-theme="dark">
+<!-- New Top Action Bar with Buttons that open center modals -->
+<div aria-label="Quick actions" class="actionbar" role="region">
+<button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button>
+<button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button>
+<button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button>
+<button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button>
+</div>
+<div class="brandbar">
+<div class="brand-left">Southwest Call Assistant</div>
+<div class="brand-right">
+<button class="mode-toggle" id="modeToggle" style="display:none;">Light Mode</button>
+<button aria-controls="searchDropdown" aria-expanded="false" aria-label="Search" class="icon-btn" id="searchToggle">
+<svg aria-hidden="true" fill="none" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+</svg>
+</button>
+<div aria-label="Search menu" class="search-dropdown" hidden="" id="searchDropdown" role="dialog">
+<input autocomplete="off" id="search" placeholder="Search this page..." type="search"/>
+</div>
+</div>
+</div>
+<div class="subhead">
+<div class="subhead-row">
+<span class="subhead-square">SATWN01CS - Phone</span>
+<span class="subhead-square">DALWN01MO - Mobile</span>
+<span class="subhead-square">DALWN01AA - Online</span>
+</div>
+<div class="pill-row">
+<span class="pill">Active Duty Military or Dependents</span>
+<span class="pill">Passengers under 12 traveling alone</span>
+<span class="pill">Early Bird or Rental Car?</span>
+<span class="pill">Aware of Baggage Policy?</span>
+<span class="pill">Chase Southwest Credit Card?</span>
+</div>
+</div>
+<!-- search dropdown added in brand bar; removed old .tools bar -->
+<main id="content">
+<!-- Fare Families -->
+<section class="grid" id="fareGrid">
+<article class="card" data-fare="BUS">
+<span class="code-chip">BUS</span>
+<div class="topbar-right"><span class="badge silver">Premium</span><span class="points">14X</span></div>
+<header>
+<h3 class="title">Choice Extra</h3>
+</header>
+<ul>
+<li>A1–15 Boarding and 2 FREE Checked Bags</li>
+<li>Fully Refundable and 1-Time Transferable</li>
+<li>Same-Day Changes and Standby Allowed</li>
+<li>Select an Extra Legroom Seat at Booking</li>
+<li>Cancelations must be made ≥10 minutes before departure</li>
+<li>[Flight Credits Valid: 12-Months]</li>
+</ul>
+
+</article>
+<article class="card" data-fare="ANY">
+<span class="code-chip">ANY</span>
+<div class="topbar-right"><span class="badge">Flexibility</span><span class="points">10X</span></div>
+<header>
+<h3 class="title">Choice Preferred</h3>
+</header>
+<ul>
+<li>EarlyBird Check-In Included (through 1/26)</li>
+<li>Fully Refundable and 1-Time Transferable</li>
+<li>Same-Day Changes and Standby Allowed</li>
+<li>Select an Preferred Seat at Booking</li>
+<li>Cancelations must be made ≥10 minutes before departure</li>
+<li>[Flight Credits Valid: 12-Months]</li>
+</ul>
+
+</article>
+<article class="card" data-fare="WGA+">
+<span class="code-chip">WGA+</span>
+<div class="topbar-right"><span class="badge green">Top Pick</span><span class="points">6X</span></div>
+<header>
+<h3 class="title">Choice</h3>
+</header>
+<ul>
+<li>Non Refundable and 1-Time Transferable</li>
+<li>Same-Day Changes and Standby Allowed</li>
+<li>Select an Standard Seat at Booking</li>
+<li>Cancelations must be made ≥10 minutes before departure</li>
+<li>[Flight Credits Valid: 12-Months]</li>
+</ul>
+
+</article>
+<article class="card" data-fare="WGA">
+<span class="code-chip">WGA</span>
+<div class="topbar-right"><span class="badge warn">Most Restrictive</span><span class="points">2X</span></div>
+<header>
+<h3 class="title">Basic</h3>
+</header>
+<ul>
+<li>Non Refundable and Non-Transferable</li>
+<li>No Same-Day Changes or Standby</li>
+<li>Seat Auto-Assigned at Check-In</li>
+<li>Cancelations must be made ≥10 minutes before departure</li>
+<li>[Flight Credits Valid: 6-Months]</li>
+</ul>
+
+</article>
+</section>
+<section class="benefits-two-col" id="benefitsTwoCol">
+<div class="benefits-col">
+<h2 style="margin:28px 0 10px;font-size:18px;font-weight:800;text-align:center;">Southwest RR Credit Card and Tier Status: Seat and Bag Perks</h2>
+<p class="section-instruction">Click a row to view details.</p>
+<!-- Different Card Types and Their Perks (Unified Card with Flip Tiles) -->
+<!-- CREDIT CARDS: Tabbed -->
+<!-- CREDIT CARDS: Color-coded cards with icons -->
+<!-- CREDIT CARDS: Accordion -->
+<section aria-label="Southwest Rapid Rewards Credit Card Benefits" class="accordion" id="cardTypesAccordion">
+<div class="acc-item" data-tone="blue">
+<span class="left-bar"></span>
+<button aria-controls="acc-cc-priority" aria-expanded="false" class="acc-header">
+<span class="acc-title">Priority &amp; Performance Business <span class="acc-codes">CCPIRR &amp; CCPERR</span></span>
+<svg aria-hidden="true" class="acc-chevron" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="currentColor"></path></svg>
+</button>
+<div aria-hidden="true" class="acc-panel" id="acc-cc-priority">
+<ul class="acc-list">
+<li><strong>Seat:</strong> Select a Standard or Preferred Seat at booking; upgrade to Extra Legroom within 48 hours of departure on any fare.</li>
+<li><strong>Bags:</strong> 1st checked bag is <strong>FREE</strong> for you and up to 8 passengers on the same reservation.</li>
+</ul>
+</div>
+</div>
+<div class="acc-item" data-tone="red">
+<span class="left-bar"></span>
+<button aria-controls="acc-cc-premier" aria-expanded="false" class="acc-header">
+<span class="acc-title">Premier &amp; Premier Business <span class="acc-codes">CPR &amp; CCRB</span></span>
+<svg aria-hidden="true" class="acc-chevron" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="currentColor"></path></svg>
+</button>
+<div aria-hidden="true" class="acc-panel" id="acc-cc-premier">
+<ul class="acc-list">
+<li><strong>Seat:</strong> Select a Standard or Preferred Seat within 48 hours of departure on any fare.</li>
+<li><strong>Bags:</strong> 1st checked bag is <strong>FREE</strong> for you and up to 8 passengers on the same reservation.</li>
+</ul>
+</div>
+</div>
+<div class="acc-item" data-tone="gold">
+<span class="left-bar"></span>
+<button aria-controls="acc-cc-plus" aria-expanded="false" class="acc-header">
+<span class="acc-title">Plus &amp; Plus Business <span class="acc-codes">CCI &amp; CCPBRR</span></span>
+<svg aria-hidden="true" class="acc-chevron" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="currentColor"></path></svg>
+</button>
+<div aria-hidden="true" class="acc-panel" id="acc-cc-plus">
+<ul class="acc-list">
+<li><strong>Seat:</strong> Select a Standard seat within 48 hours of departure on any fare.</li>
+<li><strong>Bags:</strong> 1st checked bag is <strong>FREE</strong> for you and up to 8 passengers on the same reservation.</li>
+</ul>
+</div>
+</div>
+</section>
+
+
+<section aria-label="Southwest Tier Status Benefits" class="accordion" id="tierStatusAccordion">
+<div class="acc-item" data-tone="ltblue">
+<span class="left-bar"></span>
+<button aria-controls="acc-tier-preferred" aria-expanded="false" class="acc-header">
+<span class="acc-title">A-List Preferred <span class="acc-codes">APRE</span></span>
+<svg aria-hidden="true" class="acc-chevron" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="currentColor"></path></svg>
+</button>
+<div aria-hidden="true" class="acc-panel" id="acc-tier-preferred">
+<ul class="acc-list">
+<li><strong>Seat:</strong> Select a Preferred Seat or Extra Legroom Seat at booking.</li>
+<li><strong>Bags:</strong> 1st and 2nd checked bags <strong>FREE</strong>.</li>
+</ul>
+</div>
+</div>
+<div class="acc-item" data-tone="rose">
+<span class="left-bar"></span>
+<button aria-controls="acc-tier-alist" aria-expanded="false" class="acc-header">
+<span class="acc-title">A-List <span class="acc-codes">ALIS</span></span>
+<svg aria-hidden="true" class="acc-chevron" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="currentColor"></path></svg>
+</button>
+<div aria-hidden="true" class="acc-panel" id="acc-tier-alist">
+<ul class="acc-list">
+<li><strong>Seat:</strong> Select a Preferred Seat at booking; upgrade to an Extra Legroom Seat within 48 hours of departure.</li>
+<li><strong>Bags:</strong> 1st checked bag <strong>FREE</strong>.</li>
+</ul>
+</div>
+</div>
+<div class="acc-item" data-tone="sun">
+<span class="left-bar"></span>
+<button aria-controls="acc-tier-companion" aria-expanded="false" class="acc-header">
+<span class="acc-title">Companion <span class="acc-codes">COMP</span></span>
+<svg aria-hidden="true" class="acc-chevron" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="currentColor"></path></svg>
+</button>
+<div aria-hidden="true" class="acc-panel" id="acc-tier-companion">
+<ul class="acc-list">
+<li>The companion receives the same seat and checked bag benefits as the sponsor when traveling together.</li>
+</ul>
+</div>
+</div>
+</section></div>
+<div class="benefits-col"><div class="benefit-card" data-tone="ltblue"><span class="accent"></span><h4>Reserved for Future Section</h4><p>This space is intentionally left open for later content.</p></div></div>
+</section>
+<h2 style="margin:28px 0 10px;font-size:18px;font-weight:800;text-align:center;">Helpful Talking Points</h2>
+<!-- Response To Complaint (Flip Cards) -->
+<section id="responseToComplaint" style="margin-top:30px;">
+<div class="flip-grid">
+<!-- General Complaint -->
+<div class="flip" data-complaint="general">
+<button aria-controls="flip-general" aria-expanded="false" class="flip-btn">
+<div class="flip-inner" id="flip-general">
+<div aria-label="General Complaint" class="flip-face flip-front" role="group">
+<div class="flip-title">General Complaint</div>
+<div class="flip-hint">Click to view response</div>
+</div>
+<div class="flip-face flip-back"><p>I understand your frustration, and I wish I could make changes. Unfortunately, the department handles these decisions, and I do not have control over them. I encourage you to share your feedback at <strong>Southwest.com/help</strong> so our teams can review it.</p>
+</div>
+</div>
+</button>
+</div>
+<!-- Pax At Airport -->
+<div class="flip" data-complaint="airport">
+<button aria-controls="flip-airport" aria-expanded="false" class="flip-btn">
+<div class="flip-inner" id="flip-airport">
+<div aria-label="Pax At Airport" class="flip-face flip-front" role="group">
+<div class="flip-title">Pax At Airport</div>
+<div class="flip-hint">Click to view response</div>
+</div>
+<div class="flip-face flip-back">
+<p>We do not have a real time overview of the situation and we do not want to speculate due to limited information we have over the phone. Please check with an agent at the airport for the most current details.</p>
+</div>
+</div>
+</button>
+</div>
+<!-- Weather Disruptions -->
+<div class="flip" data-complaint="weather">
+<button aria-controls="flip-weather" aria-expanded="false" class="flip-btn">
+<div class="flip-inner" id="flip-weather">
+<div aria-label="Weather Disruptions" class="flip-face flip-front" role="group">
+<div class="flip-title">Weather Disruptions</div>
+<div class="flip-hint">Click to view response</div>
+</div>
+<div class="flip-face flip-back">
+<p>We do not provide compensation for weather related disruptions, as these events are beyond our control. Your safety is always our top priority.</p>
+</div>
+</div>
+</button>
+</div>
+<!-- Delayed / Missing Bag -->
+<div class="flip" data-complaint="bag">
+<button aria-controls="flip-bag" aria-expanded="false" class="flip-btn">
+<div class="flip-inner" id="flip-bag">
+<div aria-label="Delayed / Missing Bag" class="flip-face flip-front" role="group">
+<div class="flip-title">Delayed / Missing Bag</div>
+<div class="flip-hint">Click to view response</div>
+</div>
+<div class="flip-face flip-back">
+<p>For the fastest help with delayed or missing bags, you can visit <strong>SouthwestBagHelp.com</strong> to submit or check a claim and report missing items.</p>
+</div>
+</div>
+</button>
+</div>
+<!-- Flight Delay -->
+<div class="flip" data-complaint="flight-delay">
+<button aria-controls="flip-delay" aria-expanded="false" class="flip-btn">
+<div class="flip-inner" id="flip-delay">
+<div aria-label="Flight Delay" class="flip-face flip-front" role="group">
+<div class="flip-title">Flight Delay</div>
+<div class="flip-hint">Click to view response</div>
+</div>
+<div class="flip-face flip-back">
+<p>If you experienced a delay of 3 hours or more due to a controllable issue, you may be eligible for compensation. Submit a request at <strong>Southwest.com/delayform</strong>.</p>
+</div>
+</div>
+</button>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<h3>Public Phone Numbers Directory</h3>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;max-width:900px;margin:0 auto;text-align:left;">
+<ul style="list-style:none;padding:0;margin:0;line-height:1.6;">
+<li><strong>Southwest Reservations:</strong> 1-800-I-FLY-SWA (1-800-435-9792)</li>
+<li><strong>Spanish:</strong> 1-800-826-6667</li>
+<li><strong>Southwest Vacations:</strong> 1-800-243-8372</li>
+<li><strong>Spanish:</strong> 1-888-423-5683</li>
+<li><strong>Rapid Rewards Automated Line:</strong> 1-800-445-5764</li>
+<li><strong>Rapid Rewards A-List:</strong> 1-888-737-1005</li>
+<li><strong>Rapid Rewards A-List Preferred:</strong> 1-888-737-1006</li>
+<li><strong>Group Travel:</strong> 1-800-433-5368</li>
+<li><strong>Travel Services (ePass/Must Ride Desk):</strong> 1-877-792-4792</li>
+<li><strong>Nonrev Listing:</strong> 1-866-359-7967</li>
+<li><strong>SWABIZ Help Desk:</strong> 1-888-479-2249</li>
+<li><strong>Cargo Customer Care:</strong> 1-800-533-1222</li>
+<li><strong>More Rewards:</strong> 1-800-833-4861</li>
+<li><strong>TSA:</strong> 1-866-289-9673</li>
+<li><strong>PayPal Customer Service:</strong> 1-402-935-2050</li>
+<li><strong>Apple Pay Customer Service:</strong> 1-800-692-7753</li>
+</ul>
+</div>
+</footer>
+<!-- ---------- Modal markup with user's content ---------- -->
+<!-- Bag Policy Modal -->
+<div aria-hidden="true" class="modal-overlay" data-overlay="modal-bagpolicy" id="modal-bagpolicy-overlay">
+<div aria-labelledby="modal-bagpolicy-title" aria-modal="true" class="modal" role="dialog">
+<div class="modal-header">
+<h2 class="modal-title" id="modal-bagpolicy-title">Bag Policy</h2>
+<button aria-label="Close dialog" class="modal-close" data-close="modal-bagpolicy">×</button>
+</div>
+<div class="modal-body">
+<h4>Checked &amp; Carry-on Allowances</h4>
+<ul>
+<li>1st Bag = <span class="price">$35</span></li>
+<li>2nd Bag = <span class="price">$45</span></li>
+<li>Each pax is allowed 1 Carry-On and 1 Personal item at no charge.</li>
+</ul>
+<h4>Size &amp; Weight Allowances</h4>
+<ul>
+<li>Carry-On = (24" L) × (16" W) × (10" H)</li>
+<li>Checked = 62 linear inches (L + W + H) and up to 50 pounds</li>
+</ul>
+<h4>Oversize &amp; Overweight Fees</h4>
+<ul>
+<li>Overweight (51–70 pounds) = <span class="price">$100</span></li>
+<li>Overweight (71–100 pounds) = <span class="price">$200</span></li>
+<li>Oversize (≤80") = <span class="price">$200</span></li>
+<li>Oversize &amp; Overweight (≤100 pounds + ≤80") = <span class="price">$200</span></li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Contract of Carriage Modal -->
+<div aria-hidden="true" class="modal-overlay" data-overlay="modal-contract" id="modal-contract-overlay">
+<div aria-labelledby="modal-contract-title" aria-modal="true" class="modal" role="dialog">
+<div class="modal-header">
+<h2 class="modal-title" id="modal-contract-title">Contract of Carriage</h2>
+<button aria-label="Close dialog" class="modal-close" data-close="modal-contract">×</button>
+</div>
+<div class="modal-body">
+<p>Per our Contract of Carriage, passengers are prohibited from booking multiple reservations that depart from the same city on the same day or involve overlapping flight times, where it would be impossible to travel on both flights. As a result, any such reservations may be canceled without prior notice. This practice is considered double booking and violates Southwest’s Contract of Carriage.</p>
+</div>
+</div>
+</div>
+<!-- Apple Pay / PayPal Modal -->
+<div aria-hidden="true" class="modal-overlay" data-overlay="modal-applepay" id="modal-applepay-overlay">
+<div aria-labelledby="modal-applepay-title" aria-modal="true" class="modal" role="dialog">
+<div class="modal-header">
+<h2 class="modal-title" id="modal-applepay-title">Apple Pay / PayPal</h2>
+<button aria-label="Close dialog" class="modal-close" data-close="modal-applepay">×</button>
+</div>
+<div class="modal-body">
+<p>When you use Apple Pay or PayPal to purchase a reservation on our platforms, your payment goes to Apple Pay or PayPal first, and they process it before sending the funds to Southwest. This means we do not have control over how long it takes for your financial institution to complete the transaction, and this varies for every customer and every transaction.</p>
+</div>
+</div>
+</div>
+<!-- Companion Change Modal -->
+<div aria-hidden="true" class="modal-overlay" data-overlay="modal-companion" id="modal-companion-overlay">
+<div aria-labelledby="modal-companion-title" aria-modal="true" class="modal" role="dialog">
+<div class="modal-header">
+<h2 class="modal-title" id="modal-companion-title">Companion Change</h2>
+<button aria-label="Close dialog" class="modal-close" data-close="modal-companion">×</button>
+</div>
+<div class="modal-body">
+<p>You can change your Companion up to three times within the calendar year. After the third change, the final designated companion will remain for the rest of the year.</p>
+</div>
+</div>
+</div>
+<script>
+    // Dark/Light toggle
+    const toggle = document.getElementById('modeToggle');
+    const searchToggle = document.getElementById('searchToggle');
+    const searchDropdown = document.getElementById('searchDropdown');
+
+    function openSearch(){
+      if(!searchDropdown) return;
+      searchDropdown.classList.add('open');
+      searchDropdown.removeAttribute('hidden');
+      searchToggle?.setAttribute('aria-expanded','true');
+      const input = document.getElementById('search');
+      input?.focus();
+    }
+    function closeSearch(){
+      if(!searchDropdown) return;
+      searchDropdown.classList.remove('open');
+      searchDropdown.setAttribute('hidden','');
+      searchToggle?.setAttribute('aria-expanded','false');
+    }
+    function toggleSearch(){
+      if(!searchDropdown) return;
+      if(searchDropdown.classList.contains('open')){ closeSearch(); } else { openSearch(); }
+    }
+    searchToggle?.addEventListener('click', (e)=>{ e.stopPropagation(); toggleSearch(); });
+    document.addEventListener('click', (e)=>{
+      if(!searchDropdown) return;
+      if(searchDropdown.classList.contains('open')){
+        if(!searchDropdown.contains(e.target) && e.target !== searchToggle){
+          closeSearch();
+        }
+      }
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){ closeSearch(); }
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); openSearch(); }
+    });
+
+    toggle.addEventListener('click', () => {
+      const dark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', dark ? 'light' : 'dark');
+      toggle.textContent = dark ? 'Dark Mode' : 'Light Mode';
+    });
+
+    // Global search — highlight any matches on the page
+    const searchInput = document.getElementById('search');
+    const content = document.getElementById('content');
+
+    function clearHighlights(){
+      content.querySelectorAll('.__hit').forEach(el=>{
+        el.classList.remove('__hit');
+        el.style.outline='';
+        el.style.backgroundColor='';
+      });
+    }
+
+    if(searchInput){ searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase();
+      clearHighlights();
+      if(!term){return}
+      const walker = document.createTreeWalker(content, NodeFilter.SHOW_ELEMENT, null);
+      let node = walker.currentNode;
+      while(node){
+        if(node.textContent && node.textContent.toLowerCase().includes(term)){
+          node.classList.add('__hit');
+          node.style.outline = '2px solid var(--sw-yellow)';
+          node.style.backgroundColor = 'rgba(255,182,18,0.1)';
+        }
+        node = walker.nextNode();
+      }
+    });}
+
+    // ---------- Modal logic ----------
+    const actionButtons = document.querySelectorAll('.actionbar .btn');
+    const overlays = document.querySelectorAll('.modal-overlay');
+
+    function openModal(id){
+      const overlay = document.getElementById(id + '-overlay');
+      if(!overlay) return;
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden','false');
+
+      const dialog = overlay.querySelector('.modal');
+      const firstFocusable = dialog.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if(firstFocusable){ firstFocusable.focus(); }
+
+      // trap focus
+      function trap(e){
+        const focusables = dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if(focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const isTab = e.key === 'Tab';
+        if(!isTab) return;
+        if(e.shiftKey){
+          if(document.activeElement === first){ e.preventDefault(); last.focus(); }
+        } else {
+          if(document.activeElement === last){ e.preventDefault(); first.focus(); }
+        }
+      }
+      overlay.__trapHandler = trap;
+      overlay.addEventListener('keydown', trap);
+    }
+
+    function closeModal(id){
+      const overlay = document.getElementById(id + '-overlay');
+      if(!overlay) return;
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden','true');
+      if(overlay.__trapHandler){
+        overlay.removeEventListener('keydown', overlay.__trapHandler);
+        overlay.__trapHandler = null;
+      }
+    }
+
+    actionButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-open');
+        openModal(id);
+      });
+    });
+
+    overlays.forEach(ov=>{
+      // close on click outside dialog
+      ov.addEventListener('click', (e)=>{
+        if(e.target === ov){
+          const id = ov.getAttribute('data-overlay');
+          closeModal(id);
+        }
+      });
+      // close by X button
+      const closeBtn = ov.querySelector('[data-close]');
+      closeBtn?.addEventListener('click', ()=>{
+        const id = closeBtn.getAttribute('data-close');
+        closeModal(id);
+      });
+    });
+
+    // close on Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){
+        overlays.forEach(ov=>{
+          if(ov.classList.contains('active')){
+            const id = ov.getAttribute('data-overlay');
+            closeModal(id);
+          }
+        });
+      }
+    });
+  // Flip card toggling
+    document.querySelectorAll('.flip').forEach((card)=>{
+      const btn = card.querySelector('.flip-btn');
+      const inner = card.querySelector('.flip-inner');
+      btn.addEventListener('click', ()=>{
+        card.classList.toggle('is-flipped');
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+      });
+      // Keyboard support for Space/Enter is handled by button natively
+    });
+  
+</script>
+<script>
+  // Simple tabs for both card + tier sections
+  document.querySelectorAll('.tabs').forEach((tabs) => {
+    const tabButtons = tabs.querySelectorAll('[role="tab"]');
+    const panels = tabs.querySelectorAll('[role="tabpanel"]');
+
+    function activate(id) {
+      tabButtons.forEach(btn => {
+        const selected = btn.id === id;
+        btn.setAttribute('aria-selected', String(selected));
+        btn.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach(p => {
+        const active = p.getAttribute('aria-labelledby') === id;
+        if (active) { p.setAttribute('data-active', 'true'); }
+        else { p.removeAttribute('data-active'); }
+      });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => activate(btn.id));
+      btn.addEventListener('keydown', (e) => {
+        const idx = Array.from(tabButtons).indexOf(btn);
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          const next = tabButtons[(idx + 1) % tabButtons.length];
+          next.focus(); activate(next.id);
+        }
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const prev = tabButtons[(idx - 1 + tabButtons.length) % tabButtons.length];
+          prev.focus(); activate(prev.id);
+        }
+      });
+    });
+  });
+</script>
+<script>
+  // FINAL: Accordion supports multi-open; default closed.
+  (function(){
+    document.querySelectorAll('.accordion').forEach((acc) => {
+      acc.querySelectorAll('.acc-header').forEach((btn) => {
+        var panelId = btn.getAttribute('aria-controls');
+        var panel = document.getElementById(panelId);
+        // Ensure closed on load
+        btn.setAttribute('aria-expanded', 'false');
+        if (panel) panel.setAttribute('aria-hidden', 'true');
+        // Toggle
+        btn.addEventListener('click', function(){
+          var expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          if (panel) panel.setAttribute('aria-hidden', String(expanded));
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
