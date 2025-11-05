@@ -75,8 +75,8 @@
     .pill-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
     .pill{background:#E8EEFF;color:#0f1f6b;border:1px solid #C9D3FF;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 
-    .mode-toggle{background:var(--sw-yellow);color:#000;border:none;padding:4px 8px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px;transition:background .3s}
-    .mode-toggle:hover{background:#ffe066}
+    .mode-toggle{ display:none !important; }
+    .mode-toggle:hover{ display:none !important; }
 
     /* Search Dropdown in Brand Bar */
 .brand-right{position:relative;}
@@ -1503,7 +1503,6 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 <div class="brandbar">
 <div class="brand-left">Southwest C.A.R.E. Assistant</div>
 <div class="brand-right">
-<button class="mode-toggle" id="modeToggle" style="display:none;">Light Mode</button>
 <button aria-controls="searchDropdown" aria-expanded="false" aria-label="Search" class="icon-btn" id="searchToggle">
 <svg aria-hidden="true" fill="none" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
 <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -2045,7 +2044,7 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
 </div>
 <script>
     // Dark/Light toggle
-    const toggle = document.getElementById('modeToggle');
+    const toggle = document.getElementById('modeToggle'); // may be null
     const searchToggle = document.getElementById('searchToggle');
     const searchDropdown = document.getElementById('searchDropdown');
 
@@ -2080,12 +2079,8 @@ main{max-width:1400px;margin:20px auto 40px;padding:0 12px}
       if(e.key === 'Escape'){ closeSearch(); }
       if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); openSearch(); }
     });
+// removed obsolete theme toggle block
 
-    toggle.addEventListener('click', () => {
-      const dark = document.body.getAttribute('data-theme') === 'dark';
-      document.body.setAttribute('data-theme', dark ? 'light' : 'dark');
-      toggle.textContent = dark ? 'Dark Mode' : 'Light Mode';
-    });
 
     // Global search — highlight any matches on the page
     const searchInput = document.getElementById('search');
