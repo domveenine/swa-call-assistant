@@ -813,7 +813,7 @@ main{
 <strong>Disclaimer:</strong> This page was made with <span style="white-space:nowrap;"><span style="color:#304CB2; font-weight:900;">L</span><span style="color:#C8102E; font-weight:900;">U</span><span style="color:#FFB612; font-weight:900;">V</span></span> by a CoHeart, for CoHearts. It is intended as a helpful tool for the Customer C.A.R.E. Team but is not endorsed by, nor is it official Southwest Airlines Co. content. Information here may not be updated in real time, so always use your official company resources before sharing anything with customers. All Southwest Airlines references, including but not limited to colors, logos, taglines, verbiage, fare information, terms and conditions, and related materials, are the property of Southwest Airlines Co. and are used here solely for creative and informational purposes only. The creator is not responsible for any outdated, incorrect, or misunderstood information on this page.
   </p>
 <p style="margin-top:8px; font-weight:600; color:#FFB612; text-align:center;">
-    💬 Have feedback, suggestions, or want to send a KickTail? Message me on Teams: Dominic Vargas.
+    💬 Have feedback, suggestions, or want to send a KickTail? Message me on Teams: Dominic Vargas
   </p>
 </footer>
 <!-- Next Break Modal -->
@@ -838,9 +838,16 @@ main{
 <option value="America/New_York">Eastern</option>
 </select>
 </div>
-<p class="acc-note">Step 1. Enter the time of your next scheduled break.<br/>Step 2. Select AM or PM from the drop down and choose your time zone.<br/>Step 3. Click "Start Timer" and you're all set!</p>
-<div class="actions">
 
+<p>
+<strong>Step 1.</strong> Enter the time of your next scheduled break.<br/>
+<strong>Step 2.</strong> Select AM or PM<br/>
+<strong>Step 3.</strong> Select your local time zone.<br/>
+<strong>Step 4.</strong> Click "Start Timer" and you're all set!<br/><br/>
+You will hear a warning tone when there are 3 minutes left on the clock.
+</p>
+
+<div class="actions">
 <!-- <button class="btn secondary" data-close="modal-nextbreak">Cancel</button> -->
 <button class="btn" id="nb-start">Start Timer</button>
 </div>
@@ -1114,7 +1121,6 @@ function envGainNode(){
   };
 })();
 </script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const testBtn = document.getElementById('nb-test-tone');
@@ -1126,5 +1132,4 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
-
 </body></html>
