@@ -840,7 +840,7 @@ main{
 </div>
 <p class="acc-note">Step 1. Enter the time of your next scheduled break.<br/>Step 2. Select AM or PM from the drop down and choose your time zone.<br/>Step 3. Click "Start Timer" and you're all set!</p>
 <div class="actions">
-<button class="btn secondary" id="nb-test-tone" type="button" onclick="try{window.chimePrime&&window.chimePrime();window.chimeThreeMin&&window.chimeThreeMin();}catch(e){}">Test Tone</button>
+
 <!-- <button class="btn secondary" data-close="modal-nextbreak">Cancel</button> -->
 <button class="btn" id="nb-start">Start Timer</button>
 </div>
@@ -905,13 +905,7 @@ main{
   const overlay = document.getElementById('modal-nextbreak-overlay');
   const startBtn = document.getElementById('nb-start');
   
-  const _testBtn = document.getElementById('nb-test-tone');
-  if (_testBtn){
-    _testBtn.addEventListener('click', () => {
-      try { ensure(); } catch(e){} // prime within scope
-      try { chimeThreeMin(); } catch(e){ try { window.chimeThreeMin && window.chimeThreeMin(); } catch(e2){} }
-    });
-  }
+  
 
 const timeInput = document.getElementById('nb-time');
   const ampmSel = document.getElementById('nb-ampm');
@@ -1037,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       masterGain = ctx.createGain();
-      masterGain.gain.value = 0.45;
+      masterGain.gain.value = 1.5;
       masterGain.connect(ctx.destination);
       const resume = () => { if (ctx && ctx.state === 'suspended') ctx.resume(); 
         document.removeEventListener('click', resume);
@@ -1053,17 +1047,33 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function chimeThreeMin(){
   ensure();
-  const g = envGainNode();
-  const o = ctx.createOscillator();
-  o.type = 'sine';
-  o.frequency.value = 880;
-  o.connect(g);
+
   const now = ctx.currentTime;
-  g.gain.setValueAtTime(0, now);
-  g.gain.linearRampToValueAtTime(1.0, now + 0.02);
-  g.gain.linearRampToValueAtTime(0, now + 0.30);
-  o.start(now);
-  o.stop(now + 0.30);
+
+  // First "ding" - bright and soft
+  const g1 = envGainNode();
+  const o1 = ctx.createOscillator();
+  o1.type = 'sine';
+  o1.frequency.value = 1200;   // bright first chime
+  o1.connect(g1);
+  g1.gain.setValueAtTime(0, now);
+  g1.gain.linearRampToValueAtTime(0.6, now + 0.02);
+  g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.30);
+  o1.start(now);
+  o1.stop(now + 0.32);
+
+  // Second "ding" - slightly lower, rounder
+  const delay = 0.18;
+  const g2 = envGainNode();
+  const o2 = ctx.createOscillator();
+  o2.type = 'sine';
+  o2.frequency.value = 1000;   // softer, warmer second chime
+  o2.connect(g2);
+  g2.gain.setValueAtTime(0, now + delay);
+  g2.gain.linearRampToValueAtTime(0.55, now + delay + 0.02);
+  g2.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.30);
+  o2.start(now + delay);
+  o2.stop(now + delay + 0.32);
 }
 
   
