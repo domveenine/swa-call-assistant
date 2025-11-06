@@ -1038,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       masterGain = ctx.createGain();
-      masterGain.gain.value = 1.2;
+      masterGain.gain.value = 1.4;
       masterGain.connect(ctx.destination);
       const resume = () => { if (ctx && ctx.state === 'suspended') ctx.resume(); 
         document.removeEventListener('click', resume);
@@ -1106,8 +1106,8 @@ function envGainNode(){
   }
   window.chimeRetroGameWin = function(){
     ensure();
-    const lengthBoost = 3.0;
-    const volumeBoost = 1.2;
+    const lengthBoost = 2.5;
+    const volumeBoost = 1.0;
     [0, 2, 4, 7, 12].forEach((st, i) => {
       note({
         freq: 523.25 * Math.pow(2, st/12),
