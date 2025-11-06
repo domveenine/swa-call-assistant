@@ -1038,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!ctx){
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       masterGain = ctx.createGain();
-      masterGain.gain.value = 1.5;
+      masterGain.gain.value = 1.2;
       masterGain.connect(ctx.destination);
       const resume = () => { if (ctx && ctx.state === 'suspended') ctx.resume(); 
         document.removeEventListener('click', resume);
