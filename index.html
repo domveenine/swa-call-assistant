@@ -1154,7 +1154,7 @@ footer ~ * .pc-tabs { display: none !important; }
     });}
 
     // ---------- Modal logic ----------
-    const actionButtons = document.querySelectorAll('.actionbar .btn');
+    const actionButtons = document.querySelectorAll('.actionbar button[data-open]');
     const overlays = document.querySelectorAll('.modal-overlay');
 
     function openModal(id){
@@ -2497,6 +2497,27 @@ document.addEventListener('DOMContentLoaded', function(){
     hideError();
     createdInput.focus();
   });
+})();
+</script>
+
+<script id="airport-direct-link-fix">
+(function(){
+  const url = 'https://domveenine.github.io/airport-map/';
+  const existing = document.getElementById('airportMapOpen');
+  if (!existing) return;
+
+  const clean = document.createElement('a');
+  clean.id = 'airportMapOpen';
+  clean.className = 'btn';
+  clean.href = url;
+  clean.target = '_blank';
+  clean.rel = 'noopener noreferrer';
+  clean.setAttribute('role', 'button');
+  clean.setAttribute('aria-label', 'Open Airports map');
+  clean.style.cssText = 'text-decoration:none;display:inline-flex;align-items:center;justify-content:center;';
+  clean.textContent = 'Airports';
+
+  existing.replaceWith(clean);
 })();
 </script>
 </body></html>
