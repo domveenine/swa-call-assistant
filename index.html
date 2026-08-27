@@ -1175,6 +1175,38 @@ body.phone-directory-open{overflow:hidden;}
   }
 }
 </style>
+
+<style id="travel-services-phone-option-polish">
+/* Travel Services: keep the phone number and menu option as one clean control */
+#phoneDropdown .phone-details a.phone-with-option{
+  display:inline-flex !important;
+  align-items:center;
+  gap:0;
+  overflow:hidden;
+  padding:0 !important;
+  border-radius:7px !important;
+}
+#phoneDropdown .phone-with-option .phone-number{
+  display:inline-block;
+  padding:5px 7px;
+}
+#phoneDropdown .phone-with-option .phone-option-inline{
+  display:inline-block;
+  padding:5px 7px 5px 6px;
+  border-left:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.10);
+  color:#FFE8EC;
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.25px;
+  white-space:nowrap;
+}
+#phoneDropdown .phone-with-option:hover .phone-option-inline{
+  background:rgba(255,255,255,.15);
+  color:#fff;
+}
+</style>
 </head><body data-theme="dark"><header class="header-wrapper"><div class="brandbar"><div class="brand-left">Southwest C.A.R.E. Assistant</div><div class="brand-right"><span class="pill next-break-pill" id="nextBreakPill">Next Break</span><a aria-label="Open Call Timer" class="icon-btn call-timer-btn" href="https://domveenine.github.io/Shift-Call-Timer/" id="callTimerBtn" target="_blank" title="Open Call Timer">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
 <circle cx="12" cy="12" r="10"></circle>
@@ -1230,7 +1262,7 @@ body.phone-directory-open{overflow:hidden;}
 </li>
 <li class="phone-internal-group">
 <div class="phone-internal-heading">INTERNAL SWA</div>
-<div class="phone-internal-row"><div class="phone-label">Travel Services <span class="phone-meta">ePass/Must Ride Desk · M-F | 7AM - 9PM</span></div><div class="phone-details"><a href="tel:18777924792">1-877-792-4792</a><span class="phone-option">Opt. 3</span></div></div>
+<div class="phone-internal-row"><div class="phone-label">Travel Services <span class="phone-meta">ePass/Must Ride Desk · M-F | 7AM - 9PM</span></div><div class="phone-details"><a class="phone-with-option" href="tel:18777924792"><span class="phone-number">1-877-792-4792</span><span class="phone-option-inline">Option 3</span></a></div></div>
 <div class="phone-internal-row"><div class="phone-label">SWA Attendance Line <span class="phone-meta">Formerly COA</span></div><div class="phone-details"><a href="tel:18662538755">866-253-8755</a></div></div>
 <div class="phone-internal-row"><div class="phone-label">SWA Help Desk <span class="phone-meta">3300</span></div><div class="phone-details"><a href="tel:12147923300">1-214-792-3300</a></div></div>
 </li>
