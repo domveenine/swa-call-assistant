@@ -429,7 +429,6 @@ footer ~ * .pc-tabs { display: none !important; }
   text-align: center;
 }
 </style>
-
 <style id="fare-card-color-restore">
 /* Restore fare card accent colors and keep them isolated */
 #fareGrid .card{
@@ -598,7 +597,6 @@ footer ~ * .pc-tabs { display: none !important; }
 .actionbar a.btn{color:#fff !important;text-decoration:none !important;}
 .actionbar a.btn:visited{color:#fff !important;}
 </style>
-
 <style id="expires-modal-styles">
 #modal-expires{width:min(680px,94vw);border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.16);box-shadow:0 24px 70px rgba(0,0,0,.55)}
 #modal-expires .modal-header{padding:14px 18px;background:linear-gradient(90deg,var(--sw-blue) 0%,var(--sw-lightblue) 42%,var(--sw-yellow) 100%);color:#fff;border-bottom:0}
@@ -633,7 +631,6 @@ footer ~ * .pc-tabs { display: none !important; }
 #modal-expires .expires-error.active{display:block}
 @media (max-width:520px){#modal-expires .expires-actions{justify-content:stretch}#modal-expires .expires-btn{flex:1}#modal-expires .expires-date{font-size:22px}}
 </style>
-
 <style id="expires-simple-overrides">
 /* Simple, uniform styling for the Expires modal */
 #modal-expires{
@@ -796,7 +793,6 @@ footer ~ * .pc-tabs { display: none !important; }
   #modal-expires .expires-btn{flex:1 1 auto !important;}
 }
 </style>
-
 <style id="expires-modal-final-cleanup">
 /* Final Expires modal cleanup: permanent script, no script scrolling, uniform pop-out styling */
 #modal-expires{
@@ -897,12 +893,351 @@ footer ~ * .pc-tabs { display: none !important; }
   transform:translateY(1px) !important;
 }
 </style>
+<style id="compact-phone-directory-styles">
+/* === Dedicated Phone Directory Pop-Out === */
+#phoneDropdown{
+  position:fixed !important;
+  top:50% !important;
+  left:50% !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:translate(-50%,-50%) !important;
+  width:min(590px,94vw) !important;
+  max-height:min(78vh,650px) !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  border-radius:16px !important;
+  border:1px solid rgba(255,255,255,.25) !important;
+  background:linear-gradient(180deg,#173F90 0%,#0B2B6F 100%) !important;
+  color:#fff !important;
+  z-index:2147483647 !important;
+  box-shadow:0 24px 70px rgba(0,0,0,.55) !important;
+}
+#phoneDropdown.open{
+  display:flex !important;
+  flex-direction:column;
+  animation:phonePopIn .16s ease-out !important;
+}
+@keyframes phonePopIn{
+  from{opacity:0;transform:translate(-50%,-47%) scale(.97)}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+#phoneDropdown .phone-directory-title{
+  position:static;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex:0 0 auto;
+  padding:12px 14px;
+  margin:0;
+  color:#fff;
+  background:linear-gradient(90deg,#304CB2 0%,#173F90 55%,#0B2B6F 100%);
+  border-bottom:1px solid rgba(255,255,255,.18);
+  box-shadow:0 2px 8px rgba(0,0,0,.16);
+}
+#phoneDropdown .phone-directory-heading{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+#phoneDropdown .phone-directory-icon{
+  width:30px;
+  height:30px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  border-radius:9px;
+  color:#FFB612;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+}
+#phoneDropdown .phone-directory-heading-text{
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  min-width:0;
+}
+#phoneDropdown .phone-directory-heading-text strong{
+  font-size:15px;
+  line-height:1.1;
+  font-weight:900;
+  letter-spacing:.2px;
+  color:#fff;
+}
+#phoneDropdown .phone-directory-heading-text span{
+  font-size:9.5px;
+  line-height:1.1;
+  font-weight:700;
+  color:rgba(255,255,255,.65);
+}
+#phoneDropdown .phone-directory-close{
+  appearance:none;
+  width:31px;
+  height:31px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.20);
+  background:rgba(255,255,255,.09);
+  color:#fff;
+  font-size:18px;
+  line-height:1;
+  font-weight:700;
+  cursor:pointer;
+  transition:background .15s ease,transform .08s ease;
+}
+#phoneDropdown .phone-directory-close:hover{background:rgba(255,255,255,.18)}
+#phoneDropdown .phone-directory-close:active{transform:scale(.95)}
+#phoneDropdown .phone-directory-scroll{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  padding:10px;
+  scrollbar-width:thin;
+}
+#phoneDropdown .phone-directory-list{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:6px;
+  list-style:none;
+  margin:0;
+  padding:0;
+  font-size:13px;
+  line-height:1.2;
+}
+#phoneDropdown .phone-entry{
+  min-width:0;
+  padding:0 !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  border-radius:10px;
+  background:rgba(255,255,255,.055);
+  overflow:hidden;
+  transition:background .15s ease,border-color .15s ease;
+}
+#phoneDropdown .phone-entry:hover{
+  background:rgba(255,255,255,.085);
+  border-color:rgba(255,255,255,.18) !important;
+}
+#phoneDropdown .phone-entry-main{
+  display:grid;
+  grid-template-columns:minmax(190px,1fr) auto;
+  align-items:center;
+  gap:12px;
+  min-height:54px;
+  padding:9px 11px;
+}
+#phoneDropdown .phone-label{
+  font-size:13.5px;
+  line-height:1.22;
+  font-weight:850;
+  color:#fff;
+  min-width:0;
+}
+#phoneDropdown .phone-meta{
+  display:block;
+  margin-top:2px;
+  font-size:10.5px;
+  line-height:1.2;
+  font-weight:700;
+  color:rgba(255,255,255,.58);
+  white-space:normal;
+}
+#phoneDropdown .phone-details{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:4px;
+  text-align:right;
+}
+#phoneDropdown .phone-details a{
+  font-size:12.5px !important;
+  line-height:1 !important;
+  font-weight:850 !important;
+  padding:4px 6px !important;
+  border-radius:6px !important;
+  border:1px solid rgba(255,182,18,.22) !important;
+  background:rgba(255,182,18,.08) !important;
+  color:#FFD15A !important;
+  white-space:nowrap;
+  text-decoration:none !important;
+}
+#phoneDropdown .phone-details a:hover{
+  background:rgba(255,182,18,.18) !important;
+  border-color:rgba(255,182,18,.50) !important;
+  color:#fff !important;
+}
+#phoneDropdown .phone-sep{
+  font-size:9.5px;
+  font-weight:700;
+  color:rgba(255,255,255,.42);
+  padding:0 1px;
+}
+#phoneDropdown .phone-option{
+  font-size:9.5px;
+  line-height:1;
+  font-weight:900;
+  color:#fff;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;
+  padding:3px 5px;
+  white-space:nowrap;
+}
+#phoneDirectoryBackdrop{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:rgba(2,6,23,.68);
+  backdrop-filter:blur(1.5px);
+  -webkit-backdrop-filter:blur(1.5px);
+  z-index:2147483646;
+}
+#phoneDirectoryBackdrop.open{display:block;}
+body.phone-directory-open{overflow:hidden;}
+@media (max-width:700px){
+  #phoneDropdown{
+    width:min(94vw,560px) !important;
+    max-height:84vh !important;
+  }
+  #phoneDropdown .phone-entry-main{
+    grid-template-columns:minmax(150px,1fr) auto;
+    gap:8px;
+    padding:8px 9px;
+  }
+}
+@media (max-width:470px){
+  #phoneDropdown .phone-entry-main{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+  #phoneDropdown .phone-details{justify-content:flex-start;text-align:left}
+  #phoneDropdown .phone-directory-heading-text span{display:none}
+}
+</style>
+<style id="phone-internal-number-styles">
+/* Separate internal Southwest contacts from public/support contacts */
+#phoneDropdown .phone-internal-group{
+  list-style:none;
+  margin:12px 0 2px;
+  padding:0;
+  border:1px solid rgba(126,203,255,.28);
+  border-left:3px solid #7CCBFF;
+  border-radius:9px;
+  overflow:hidden;
+  background:rgba(0,173,239,.08);
+}
+#phoneDropdown .phone-internal-heading{
+  padding:8px 10px 7px;
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.9px;
+  color:#9ED8FF;
+  background:rgba(0,173,239,.08);
+  border-bottom:1px solid rgba(126,203,255,.18);
+}
+#phoneDropdown .phone-internal-row{
+  display:grid;
+  grid-template-columns:minmax(190px,1fr) auto;
+  align-items:center;
+  gap:12px;
+  padding:9px 10px;
+}
+#phoneDropdown .phone-internal-row + .phone-internal-row{
+  border-top:1px solid rgba(126,203,255,.14);
+}
+#phoneDropdown .phone-internal-row .phone-label{
+  color:#EAF7FF !important;
+}
+#phoneDropdown .phone-internal-row .phone-meta{
+  color:rgba(218,240,255,.68) !important;
+}
+#phoneDropdown .phone-internal-row .phone-details a{
+  color:#BDE8FF !important;
+  background:rgba(0,173,239,.10) !important;
+  border-color:rgba(124,203,255,.30) !important;
+}
+#phoneDropdown .phone-internal-row .phone-details a:hover{
+  color:#fff !important;
+  background:rgba(0,173,239,.24) !important;
+  border-color:rgba(124,203,255,.60) !important;
+}
+@media (max-width:470px){
+  #phoneDropdown .phone-internal-row{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:6px;
+  }
+}
+</style>
 </head><body data-theme="dark"><header class="header-wrapper"><div class="brandbar"><div class="brand-left">Southwest C.A.R.E. Assistant</div><div class="brand-right"><span class="pill next-break-pill" id="nextBreakPill">Next Break</span><a aria-label="Open Call Timer" class="icon-btn call-timer-btn" href="https://domveenine.github.io/Shift-Call-Timer/" id="callTimerBtn" target="_blank" title="Open Call Timer">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
 <circle cx="12" cy="12" r="10"></circle>
 <polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-</a><button aria-controls="phoneDropdown" aria-expanded="false" aria-haspopup="dialog" aria-label="Phone directory" class="icon-btn" id="phoneToggle"><svg fill="none" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.1 5.18 2 2 0 0 1 5.11 3h3a2 2 0 0 1 2 1.72c.12.86.33 1.7.62 2.5a2 2 0 0 1-.45 2.11L9.09 10.91a16 16 0 0 0 6 6l1.58-1.19a2 2 0 0 1 2.11-.45c.8.29 1.64.5 2.5.62A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button><button aria-controls="searchDropdown" aria-expanded="false" aria-label="Search" class="icon-btn" id="searchToggle"><svg aria-hidden="true" fill="none" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle></svg></button><div aria-label="Phone directory menu" class="search-dropdown" hidden="" id="phoneDropdown" role="dialog"><div style="font-weight:900; font-size:15px; text-align:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.3); margin-bottom:6px; color:#FFB612; letter-spacing:0.5px;">Public Directory</div><div style="max-height: 360px; overflow:auto; padding: 6px;"><ul style="list-style:none; margin:0; padding:0; font-size:13px;"><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Southwest Reservations</div><div style="display:flex; gap:20px; align-items:stretch; flex-wrap:nowrap;"><a href="tel:1800" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-I-FLY-SWA</a><a href="tel:18004359792" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-435-9792</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Southwest Reservations Spanish Line</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18008266667" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-826-6667</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Getaways by Southwest (Formerly Southwest Vacations)</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18002438372" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-243-8372</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Getaways by Southwest Spanish Line</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18884235683" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-888-423-5683</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Rapid Rewards Automated Line</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18004455764" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-445-5764</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Rapid Rewards A-List</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18887371005" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-888-737-1005</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Rapid Rewards A-List Preferred</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18887371006" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-888-737-1006</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Group Travel</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18004335368" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-433-5368</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Travel Services (ePass/Must Ride Desk)</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18777924792" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-877-792-4792</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Non-Rev Listing</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18663597967" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-866-359-7967</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">SWABIZ Help Desk</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18884792249" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-888-479-2249</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Cargo Customer Care</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18005331222" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-533-1222</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">More Rewards</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18008334861" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-833-4861</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">TSA</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18662899673" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-866-289-9673</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">PayPal Customer Service</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:14029352050" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-402-935-2050</a></div></li><li style="padding:6px 0; border-bottom:1px dashed var(--line);"><div style="font-weight:900;">Apple Pay Customer Service</div><div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;"><a href="tel:18006927753" style="font-weight:900; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.1); display:inline-block;">1-800-692-7753</a></div></li></ul></div></div><div aria-label="Search menu" class="search-dropdown" hidden="" id="searchDropdown" role="dialog"><input autocomplete="off" id="search" placeholder="Search this page..." type="search"/></div></div></div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Anchorage"><span class="label">Alaska</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div><div class="clock" data-tz="UTC"><span class="label">Zulu</span><span class="time">--:-- --</span></div></div></div><div class="subhead"><div class="subhead-row" style="justify-content:center; font-weight:700; font-size:15px; color:#fff; letter-spacing:0.5px; gap:30px; display:flex; flex-wrap:wrap;"><span style="margin:0 20px;">SATWN01CS - Phone</span><span style="margin:0 20px;">DALWN01MO - Mobile</span><span style="margin:0 20px;">DALWN01AA - Online</span></div><div class="pill-row"><span class="pill">Active Duty Military or Dependents?</span><span class="pill">Passengers &lt;12yrs Traveling Alone?</span><span class="pill">Rental Car?</span><span class="pill">Aware of Baggage Policy?</span><span class="pill">Chase Southwest Credit Card?</span></div></div><div aria-label="Quick actions" class="actionbar" role="region"><a class="btn" id="airportMapOpen" href="https://domveenine.github.io/airport-map/" target="_blank" rel="noopener noreferrer" role="button" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Airports</a><button aria-controls="modal-stationcodes" aria-haspopup="dialog" class="btn" data-open="modal-stationcodes">Station Codes</button><button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button><button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button><button aria-controls="modal-seatmap" aria-haspopup="dialog" class="btn" data-open="modal-seatmap">Seat Map</button><button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button><button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button><button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button><button aria-controls="modal-expires" aria-haspopup="dialog" class="btn" data-open="modal-expires">Expires</button></div><div aria-labelledby="modal-seatmap-title" aria-modal="true" class="modal-overlay" hidden="" id="modal-seatmap-overlay" role="dialog"><div class="modal" id="modal-seatmap"><div class="modal-header"><h3 class="modal-title" id="modal-seatmap-title">Seat Map</h3><button class="modal-close" data-close="modal-seatmap">Close</button></div><div class="modal-body">
+</a><button aria-controls="phoneDropdown" aria-expanded="false" aria-haspopup="dialog" aria-label="Phone directory" class="icon-btn" id="phoneToggle"><svg fill="none" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.1 5.18 2 2 0 0 1 5.11 3h3a2 2 0 0 1 2 1.72c.12.86.33 1.7.62 2.5a2 2 0 0 1-.45 2.11L9.09 10.91a16 16 0 0 0 6 6l1.58-1.19a2 2 0 0 1 2.11-.45c.8.29 1.64.5 2.5.62A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button><button aria-controls="searchDropdown" aria-expanded="false" aria-label="Search" class="icon-btn" id="searchToggle"><svg aria-hidden="true" fill="none" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle></svg></button><div aria-label="Phone directory menu" class="search-dropdown" hidden="" id="phoneDropdown" role="dialog">
+<div class="phone-directory-title">
+  <div class="phone-directory-heading">
+    <span class="phone-directory-icon" aria-hidden="true">
+      <svg fill="none" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.1 5.18 2 2 0 0 1 5.11 3h3a2 2 0 0 1 2 1.72c.12.86.33 1.7.62 2.5a2 2 0 0 1-.45 2.11L9.09 10.91a16 16 0 0 0 6 6l1.58-1.19a2 2 0 0 1 2.11-.45c.8.29 1.64.5 2.5.62A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+    </span>
+    <div class="phone-directory-heading-text"><strong>Phone Directory</strong></div>
+  </div>
+  <button class="phone-directory-close" id="phoneDirectoryClose" type="button" aria-label="Close phone directory">×</button>
+</div>
+<div class="phone-directory-scroll">
+<ul class="phone-directory-list">
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Southwest Reservations</div><div class="phone-details"><a href="tel:18004359792">1-800-I-FLY-SWA</a><span class="phone-sep">or</span><a href="tel:18004359792">1-800-435-9792</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Southwest Reservations Spanish Line</div><div class="phone-details"><a href="tel:18008266667">1-800-826-6667</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Getaways by Southwest <span class="phone-meta">Formerly Southwest Vacations</span></div><div class="phone-details"><a href="tel:18337924899">833-SWA-GTWY</a><span class="phone-sep">or</span><a href="tel:18337924899">833-792-4899</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Rapid Rewards A-List</div><div class="phone-details"><a href="tel:18887371005">1-888-737-1005</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Rapid Rewards A-List Preferred</div><div class="phone-details"><a href="tel:18887371006">1-888-737-1006</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Group Travel <span class="phone-meta">M-F | 5AM - 12AM</span></div><div class="phone-details"><a href="tel:18004335368">1-800-433-5368</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Travel Services <span class="phone-meta">ePass/Must Ride Desk · M-F | 7AM - 9PM</span></div><div class="phone-details"><a href="tel:18777924792">1-877-792-4792</a><span class="phone-option">Opt. 3</span></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">SWABIZ Help Desk</div><div class="phone-details"><a href="tel:18884792249">1-888-4SWABIZ</a><span class="phone-sep">or</span><a href="tel:18884792249">1-888-479-2249</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Cargo Customer Care</div><div class="phone-details"><a href="tel:18005331222">1-800-533-1222</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">More Rewards</div><div class="phone-details"><a href="tel:18008334861">1-800-833-4861</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">TSA</div><div class="phone-details"><a href="tel:18662899673">1-866-289-9673</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">PayPal Customer Service</div><div class="phone-details"><a href="tel:14029352050">1-402-935-2050</a></div></div>
+</li>
+<li class="phone-entry">
+<div class="phone-entry-main"><div class="phone-label">Apple Pay Customer Service</div><div class="phone-details"><a href="tel:18006927753">1-800-692-7753</a></div></div>
+</li>
+<li class="phone-internal-group">
+<div class="phone-internal-heading">INTERNAL SWA</div>
+<div class="phone-internal-row"><div class="phone-label">SWA Attendance Line <span class="phone-meta">Formerly COA</span></div><div class="phone-details"><a href="tel:18662538755">866-253-8755</a></div></div>
+<div class="phone-internal-row"><div class="phone-label">SWA Help Desk <span class="phone-meta">3300</span></div><div class="phone-details"><a href="tel:12147923300">1-214-792-3300</a></div></div>
+</li>
+</ul>
+</div>
+</div><div aria-label="Search menu" class="search-dropdown" hidden="" id="searchDropdown" role="dialog"><input autocomplete="off" id="search" placeholder="Search this page..." type="search"/></div></div></div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Anchorage"><span class="label">Alaska</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div><div class="clock" data-tz="UTC"><span class="label">Zulu</span><span class="time">--:-- --</span></div></div></div><div class="subhead"><div class="subhead-row" style="justify-content:center; font-weight:700; font-size:15px; color:#fff; letter-spacing:0.5px; gap:30px; display:flex; flex-wrap:wrap;"><span style="margin:0 20px;">SATWN01CS - Phone</span><span style="margin:0 20px;">DALWN01MO - Mobile</span><span style="margin:0 20px;">DALWN01AA - Online</span></div><div class="pill-row"><span class="pill">Active Duty Military or Dependents?</span><span class="pill">Passengers &lt;12yrs Traveling Alone?</span><span class="pill">Rental Car?</span><span class="pill">Aware of Baggage Policy?</span><span class="pill">Chase Southwest Credit Card?</span></div></div><div aria-label="Quick actions" class="actionbar" role="region"><a class="btn" href="https://domveenine.github.io/airport-map/" id="airportMapOpen" rel="noopener noreferrer" role="button" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;" target="_blank">Airports</a><button aria-controls="modal-stationcodes" aria-haspopup="dialog" class="btn" data-open="modal-stationcodes">Station Codes</button><button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button><button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button><button aria-controls="modal-seatmap" aria-haspopup="dialog" class="btn" data-open="modal-seatmap">Seat Map</button><button aria-controls="modal-companion" aria-haspopup="dialog" class="btn" data-open="modal-companion">Companion Change</button><button aria-controls="modal-applepay" aria-haspopup="dialog" class="btn" data-open="modal-applepay">Apple Pay / PayPal</button><button aria-controls="modal-contract" aria-haspopup="dialog" class="btn" data-open="modal-contract">Contract of Carriage</button><button aria-controls="modal-expires" aria-haspopup="dialog" class="btn" data-open="modal-expires">Expires</button></div><div aria-labelledby="modal-seatmap-title" aria-modal="true" class="modal-overlay" hidden="" id="modal-seatmap-overlay" role="dialog"><div class="modal" id="modal-seatmap"><div class="modal-header"><h3 class="modal-title" id="modal-seatmap-title">Seat Map</h3><button class="modal-close" data-close="modal-seatmap">Close</button></div><div class="modal-body">
 <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
 <div style="flex:0.7; min-width:300px;">
 <div style="margin-top:12px; text-align:left; display:flex; flex-direction:column; gap:10px;">
@@ -1689,51 +2024,44 @@ footer ~ * .pc-tabs { display: none !important; }
     💬 Have feedback, suggestions, or want to send a KickTail? Message me on Teams: Dominic Vargas.
   </p>
 </footer>
-
 <!-- Expires Modal -->
 <div aria-labelledby="modal-expires-title" aria-modal="true" class="modal-overlay" hidden="" id="modal-expires-overlay" role="dialog">
-  <div class="modal" id="modal-expires">
-    <div class="modal-header">
-      <h3 class="modal-title" id="modal-expires-title">Travel Funds Expiration</h3>
-      <button class="modal-close" data-close="modal-expires">Close</button>
-    </div>
-    <div class="modal-body">
-      <p class="expires-intro">Enter the date the PNR was created, then select whether the funds expire in 6 months or 12 months.</p>
-
-      <div class="expires-grid">
-        <div class="expires-field">
-          <label for="expires-created-date">PNR Created Date</label>
-          <input id="expires-created-date" type="text" inputmode="numeric" maxlength="10" placeholder="MM/DD/YYYY" autocomplete="off"/>
-        </div>
-        <div class="expires-field">
-          <label for="expires-term">Expiration Window</label>
-          <div class="expires-term-bubbles" id="expires-term" role="radiogroup" aria-label="Expiration window">
-            <button class="expires-term-bubble active" type="button" data-months="6" role="radio" aria-checked="true">6 Months</button>
-            <button class="expires-term-bubble" type="button" data-months="12" role="radio" aria-checked="false">12 Months</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="expires-actions">
-        <button class="expires-btn secondary" id="expires-clear" type="button">Clear</button>
-        <button class="expires-btn" id="expires-calculate" type="button">Calculate</button>
-      </div>
-
-      <div class="expires-error" id="expires-error" role="alert">Please enter the PNR created date.</div>
-
-      <div class="expires-result" id="expires-result">
-        <p class="expires-date-label">Expiration Date</p>
-        <div class="expires-date" id="expires-date-output"></div>
-      </div>
-
-      <div class="expires-script-panel" aria-label="Travel funds script">
-        <div class="expires-script-heading">Script</div>
-        <p class="expires-script" id="expires-script-output">Travel funds must be used to book a flight before they expire, and the flight must arrive by 11:59 PM in the destination city.</p>
-      </div>
-    </div>
-  </div>
+<div class="modal" id="modal-expires">
+<div class="modal-header">
+<h3 class="modal-title" id="modal-expires-title">Travel Funds Expiration</h3>
+<button class="modal-close" data-close="modal-expires">Close</button>
 </div>
-
+<div class="modal-body">
+<p class="expires-intro">Enter the date the PNR was created, then select whether the funds expire in 6 months or 12 months.</p>
+<div class="expires-grid">
+<div class="expires-field">
+<label for="expires-created-date">PNR Created Date</label>
+<input autocomplete="off" id="expires-created-date" inputmode="numeric" maxlength="10" placeholder="MM/DD/YYYY" type="text"/>
+</div>
+<div class="expires-field">
+<label for="expires-term">Expiration Window</label>
+<div aria-label="Expiration window" class="expires-term-bubbles" id="expires-term" role="radiogroup">
+<button aria-checked="true" class="expires-term-bubble active" data-months="6" role="radio" type="button">6 Months</button>
+<button aria-checked="false" class="expires-term-bubble" data-months="12" role="radio" type="button">12 Months</button>
+</div>
+</div>
+</div>
+<div class="expires-actions">
+<button class="expires-btn secondary" id="expires-clear" type="button">Clear</button>
+<button class="expires-btn" id="expires-calculate" type="button">Calculate</button>
+</div>
+<div class="expires-error" id="expires-error" role="alert">Please enter the PNR created date.</div>
+<div class="expires-result" id="expires-result">
+<p class="expires-date-label">Expiration Date</p>
+<div class="expires-date" id="expires-date-output"></div>
+</div>
+<div aria-label="Travel funds script" class="expires-script-panel">
+<div class="expires-script-heading">Script</div>
+<p class="expires-script" id="expires-script-output">Travel funds must be used to book a flight before they expire, and the flight must arrive by 11:59 PM in the destination city.</p>
+</div>
+</div>
+</div>
+</div>
 <!-- Next Break Modal -->
 <div aria-labelledby="modal-nextbreak-title" aria-modal="true" class="modal-overlay" hidden="" id="modal-nextbreak-overlay" role="dialog">
 <div class="modal" id="modal-nextbreak">
@@ -2391,9 +2719,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }catch(e){ console.warn('[PC cleanup robust] skipped:', e); }
 });
 </script>
-
-
-
 <script id="expires-modal-script">
 (function(){
   const createdInput = document.getElementById('expires-created-date');
@@ -2499,7 +2824,6 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 })();
 </script>
-
 <script id="airport-direct-link-fix">
 (function(){
   const url = 'https://domveenine.github.io/airport-map/';
@@ -2518,6 +2842,63 @@ document.addEventListener('DOMContentLoaded', function(){
   clean.textContent = 'Airports';
 
   existing.replaceWith(clean);
+})();
+</script>
+
+<script id="phone-directory-popout-behavior">
+(function(){
+  const toggle = document.getElementById('phoneToggle');
+  const panel = document.getElementById('phoneDropdown');
+  const closeBtn = document.getElementById('phoneDirectoryClose');
+  if (!toggle || !panel) return;
+
+  // Move the directory out of the header stacking context so it can truly overlay the whole page.
+  if (panel.parentElement !== document.body) document.body.appendChild(panel);
+
+  let backdrop = document.getElementById('phoneDirectoryBackdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.id = 'phoneDirectoryBackdrop';
+    backdrop.setAttribute('aria-hidden','true');
+    document.body.insertBefore(backdrop, panel);
+  }
+
+  function syncBackdrop(){
+    const isOpen = panel.classList.contains('open') && !panel.hasAttribute('hidden');
+    backdrop.classList.toggle('open', isOpen);
+    document.body.classList.toggle('phone-directory-open', isOpen);
+  }
+
+  function closePhoneDirectory(){
+    panel.classList.remove('open');
+    panel.setAttribute('hidden','');
+    toggle.setAttribute('aria-expanded','false');
+    syncBackdrop();
+    toggle.focus({preventScroll:true});
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    closePhoneDirectory();
+  });
+
+  backdrop.addEventListener('click', closePhoneDirectory);
+
+  toggle.addEventListener('click', function(){
+    requestAnimationFrame(function(){
+      syncBackdrop();
+      if (panel.classList.contains('open') && closeBtn) closeBtn.focus({preventScroll:true});
+    });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && panel.classList.contains('open')) closePhoneDirectory();
+  });
+
+  // Keep the backdrop in sync with the older directory toggle logic elsewhere on the page.
+  new MutationObserver(syncBackdrop).observe(panel, {attributes:true, attributeFilter:['class','hidden']});
+  syncBackdrop();
 })();
 </script>
 </body></html>
