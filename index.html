@@ -1123,11 +1123,11 @@ body.phone-directory-open{overflow:hidden;}
   list-style:none;
   margin:12px 0 2px;
   padding:0;
-  border:1px solid rgba(126,203,255,.28);
-  border-left:3px solid #7CCBFF;
+  border:1px solid rgba(200,16,46,.55);
+  border-left:3px solid var(--sw-red);
   border-radius:9px;
   overflow:hidden;
-  background:rgba(0,173,239,.08);
+  background:rgba(200,16,46,.14);
 }
 #phoneDropdown .phone-internal-heading{
   padding:8px 10px 7px;
@@ -1135,9 +1135,9 @@ body.phone-directory-open{overflow:hidden;}
   line-height:1;
   font-weight:900;
   letter-spacing:.9px;
-  color:#9ED8FF;
-  background:rgba(0,173,239,.08);
-  border-bottom:1px solid rgba(126,203,255,.18);
+  color:#ffffff;
+  background:var(--sw-red);
+  border-bottom:1px solid rgba(255,255,255,.18);
 }
 #phoneDropdown .phone-internal-row{
   display:grid;
@@ -1145,25 +1145,26 @@ body.phone-directory-open{overflow:hidden;}
   align-items:center;
   gap:12px;
   padding:9px 10px;
+  background:rgba(200,16,46,.08);
 }
 #phoneDropdown .phone-internal-row + .phone-internal-row{
-  border-top:1px solid rgba(126,203,255,.14);
+  border-top:1px solid rgba(255,112,132,.24);
 }
 #phoneDropdown .phone-internal-row .phone-label{
-  color:#EAF7FF !important;
+  color:#FFF2F4 !important;
 }
 #phoneDropdown .phone-internal-row .phone-meta{
-  color:rgba(218,240,255,.68) !important;
+  color:rgba(255,220,225,.72) !important;
 }
 #phoneDropdown .phone-internal-row .phone-details a{
-  color:#BDE8FF !important;
-  background:rgba(0,173,239,.10) !important;
-  border-color:rgba(124,203,255,.30) !important;
+  color:#ffffff !important;
+  background:rgba(200,16,46,.34) !important;
+  border-color:rgba(255,112,132,.55) !important;
 }
 #phoneDropdown .phone-internal-row .phone-details a:hover{
   color:#fff !important;
-  background:rgba(0,173,239,.24) !important;
-  border-color:rgba(124,203,255,.60) !important;
+  background:var(--sw-red) !important;
+  border-color:#FF7188 !important;
 }
 @media (max-width:470px){
   #phoneDropdown .phone-internal-row{
@@ -1210,13 +1211,10 @@ body.phone-directory-open{overflow:hidden;}
 <div class="phone-entry-main"><div class="phone-label">Group Travel <span class="phone-meta">M-F | 5AM - 12AM</span></div><div class="phone-details"><a href="tel:18004335368">1-800-433-5368</a></div></div>
 </li>
 <li class="phone-entry">
-<div class="phone-entry-main"><div class="phone-label">Travel Services <span class="phone-meta">ePass/Must Ride Desk · M-F | 7AM - 9PM</span></div><div class="phone-details"><a href="tel:18777924792">1-877-792-4792</a><span class="phone-option">Opt. 3</span></div></div>
+<div class="phone-entry-main"><div class="phone-label">SWABIZ</div><div class="phone-details"><a href="tel:18884792249">1-888-4SWABIZ</a><span class="phone-sep">or</span><a href="tel:18884792249">1-888-479-2249</a></div></div>
 </li>
 <li class="phone-entry">
-<div class="phone-entry-main"><div class="phone-label">SWABIZ Help Desk</div><div class="phone-details"><a href="tel:18884792249">1-888-4SWABIZ</a><span class="phone-sep">or</span><a href="tel:18884792249">1-888-479-2249</a></div></div>
-</li>
-<li class="phone-entry">
-<div class="phone-entry-main"><div class="phone-label">Cargo Customer Care</div><div class="phone-details"><a href="tel:18005331222">1-800-533-1222</a></div></div>
+<div class="phone-entry-main"><div class="phone-label">Cargo</div><div class="phone-details"><a href="tel:18005331222">1-800-533-1222</a></div></div>
 </li>
 <li class="phone-entry">
 <div class="phone-entry-main"><div class="phone-label">More Rewards</div><div class="phone-details"><a href="tel:18008334861">1-800-833-4861</a></div></div>
@@ -1232,6 +1230,7 @@ body.phone-directory-open{overflow:hidden;}
 </li>
 <li class="phone-internal-group">
 <div class="phone-internal-heading">INTERNAL SWA</div>
+<div class="phone-internal-row"><div class="phone-label">Travel Services <span class="phone-meta">ePass/Must Ride Desk · M-F | 7AM - 9PM</span></div><div class="phone-details"><a href="tel:18777924792">1-877-792-4792</a><span class="phone-option">Opt. 3</span></div></div>
 <div class="phone-internal-row"><div class="phone-label">SWA Attendance Line <span class="phone-meta">Formerly COA</span></div><div class="phone-details"><a href="tel:18662538755">866-253-8755</a></div></div>
 <div class="phone-internal-row"><div class="phone-label">SWA Help Desk <span class="phone-meta">3300</span></div><div class="phone-details"><a href="tel:12147923300">1-214-792-3300</a></div></div>
 </li>
