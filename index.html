@@ -2144,6 +2144,71 @@ body.phone-directory-open{overflow:hidden;}
   border-color:#FF8A9E !important;
 }
 </style>
+
+<style id="leader-tools-dropdown-inline-style">
+/* In-page Leader Tools additions. Existing red action button stays unchanged. */
+.lt-dropdown[hidden],.lt-modal-overlay[hidden],.lt-tool-panel[hidden],.lt-error[hidden],.lt-warning[hidden]{display:none!important}
+/* Light, high-contrast dropdown against the dark page and header; button itself is unchanged. */
+.lt-dropdown{position:fixed;z-index:12000;width:255px;max-width:calc(100vw - 16px);border:2px solid #FFB612;border-radius:12px;padding:6px;background:#F2F5FF;color:#13265B;box-shadow:0 18px 50px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.24);overflow:hidden;text-align:left}
+.lt-dropdown::before{content:"";display:block;height:4px;margin:-6px -6px 6px;background:linear-gradient(90deg,#304CB2 0 52%,#C8102E 52% 76%,#FFB612 76% 100%)}
+.lt-dropdown [role="menuitem"]{width:100%;min-height:41px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;border:0;border-radius:7px;padding:10px 11px;background:transparent;color:#13265B;font:750 12px/1.35 Inter,system-ui,sans-serif;text-align:left;cursor:pointer}
+.lt-dropdown [role="menuitem"]:hover,.lt-dropdown [role="menuitem"]:focus-visible{background:#D8E5FF;outline:2px solid #304CB2;outline-offset:-2px;color:#0F1F6B}
+.lt-dropdown .lt-menu-divider{height:2px;background:#C3CCE0;margin:7px 7px}
+.lt-dropdown .lt-ext-icon{font-size:15px;line-height:1;opacity:.8}
+.lt-modal-overlay{position:fixed;inset:0;z-index:13000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,23,.77)}
+.lt-modal{display:flex;flex-direction:column;width:min(650px,100%);max-height:min(90vh,850px);border:1px solid #54699e;background:#1b2653;color:#f7f8ff;border-radius:16px;overflow:hidden;box-shadow:0 22px 75px rgba(0,0,0,.5)}
+.lt-modal.lt-compact{width:min(460px,100%)}
+.lt-modal-header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(90deg,#304CB2,#00ADEF);border-bottom:1px solid rgba(255,255,255,.22)}
+.lt-modal-title{color:#fff!important;margin:0!important;font-size:17px;font-weight:900;line-height:1.3}
+.lt-modal-close{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;border-radius:8px;padding:7px 11px;font-size:12px;font-weight:800;cursor:pointer}
+.lt-modal-close:hover{background:rgba(255,255,255,.28)}
+.lt-modal-content{overflow-y:auto;padding:18px;overscroll-behavior:contain}
+.lt-tool-panel{color:#eef4ff;font:400 13px/1.5 Inter,system-ui,sans-serif}
+.lt-tool-panel p{margin:0}
+.lt-tool-panel .lt-intro{color:#bdc9e8;font-size:12px;margin-bottom:16px}
+.lt-tool-panel .lt-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.lt-tool-panel .lt-field{display:flex;flex-direction:column;gap:5px;min-width:0;color:#e8f0ff;font-size:12px;font-weight:750}
+.lt-tool-panel .lt-field small{font-size:10px;font-weight:500;color:#beccee;line-height:1.4}
+.lt-tool-panel input,.lt-tool-panel select{display:block;min-width:0;width:100%;height:42px;border:1px solid #566a9e;border-radius:9px;padding:8px 11px;background:#101e42;color:#fff;font:650 14px/1.3 Inter,system-ui,sans-serif;color-scheme:dark;outline:0}
+.lt-tool-panel input:focus,.lt-tool-panel select:focus{border-color:#FFB612;box-shadow:0 0 0 3px rgba(255,182,18,.2)}
+.lt-tool-panel input[aria-invalid="true"]{border-color:#ff828f}
+.lt-tool-panel input::placeholder{color:#8f9cb8}
+.lt-tool-panel .lt-field.wide{grid-column:1/-1}
+.lt-tool-panel .lt-separator{height:1px;background:rgba(190,206,255,.2);margin:18px 0 14px}
+.lt-tool-panel .lt-eyebrow{color:#c0d1ee;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:850;margin:0 0 9px}
+.lt-tool-panel .lt-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lt-tool-panel .lt-result{padding:13px 14px;min-width:0;border:1px solid #42598b;border-radius:11px;background:#233768}
+.lt-tool-panel .lt-result.lt-primary{background:#294170;border-color:#5b7bb6}
+.lt-tool-panel .lt-result-label{display:block;color:#c0d0ed;font-size:11px;font-weight:750;margin-bottom:4px}
+.lt-tool-panel .lt-result-number{display:block;font-size:27px;font-weight:850;line-height:1.25;color:#fff;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.lt-tool-panel .lt-primary .lt-result-number{color:#a9d0ff}
+.lt-tool-panel .lt-result-sub{display:block;color:#bdcbe6;font-size:10px;margin-top:5px}
+.lt-tool-panel .lt-details{border:1px solid #415584;border-radius:10px;margin-top:12px;overflow:hidden}
+.lt-tool-panel .lt-detail{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 13px;background:#192b53}
+.lt-tool-panel .lt-detail+.lt-detail{border-top:1px solid #425584}
+.lt-tool-panel .lt-detail output{font-weight:850;color:#f5f8ff;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lt-tool-panel .lt-error{border:1px solid #be596c;background:#50233c;border-radius:8px;padding:9px 11px;color:#ffe1e5;margin-top:12px;font-size:12px}
+.lt-tool-panel .lt-warning{color:#ffd19a;margin-top:10px;font-size:11px}
+.lt-tool-panel .lt-time-result{margin-top:14px;padding:14px;border:1px solid #5a78ac;border-radius:11px;background:#294170}
+.lt-tool-panel .lt-time-value{display:block;color:#b3d8ff;font-size:clamp(23px,4vw,33px);line-height:1.3;font-weight:850;margin-top:5px}
+.lt-tool-panel .lt-time-date{font-weight:700;margin-top:4px}
+.lt-tool-panel .lt-time-detail{color:#c4d0e6;font-size:11px;margin-top:4px}
+.lt-modal-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:12px 18px;border-top:1px solid #405385;background:#152449}
+.lt-clear{border:1px solid #7182a9;background:transparent;color:#eef5ff;padding:8px 15px;font-weight:800;font-size:12px;border-radius:8px;cursor:pointer}
+.lt-clear:hover{background:#2b4279}
+.lt-modal :focus-visible{outline:2px solid #FFB612;outline-offset:2px}
+@media(max-width:520px){.lt-modal-overlay{padding:8px}.lt-modal{max-height:94vh}.lt-modal-content{padding:13px}.lt-tool-panel .lt-fields,.lt-tool-panel .lt-results{grid-template-columns:1fr}.lt-tool-panel .lt-field.wide{grid-column:auto}.lt-tool-panel .lt-result-number{font-size:25px}.lt-modal-header{padding:12px 13px}}
+/* Probation extension uses the same popup layout and colors as the other Leader Tools calculators. */
+.lt-tool-panel .lt-probation-fields{grid-template-columns:repeat(3,minmax(0,1fr))}
+.lt-tool-panel .lt-probation-results{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px;border-radius:11px;background:#294170;border:1px solid #5b7bb6}
+.lt-tool-panel .lt-probation-date{display:block;color:#b3d8ff;font-size:clamp(20px,2.8vw,26px);font-weight:850;line-height:1.3;overflow-wrap:anywhere;margin-top:5px}
+.lt-tool-panel .lt-probation-weekday{font-size:12px;color:#bdcbe6;margin-top:3px;min-height:18px}
+.lt-tool-panel .lt-probation-days{flex:0 0 105px;display:flex;flex-direction:column;align-items:center;text-align:center;border-left:1px solid #5b7bb6;padding-left:17px}
+.lt-tool-panel .lt-probation-count{color:#fff;font-size:28px;font-weight:850;font-variant-numeric:tabular-nums;line-height:1.2}
+.lt-tool-panel .lt-probation-note{color:#bdc9e8;font-size:11px;margin-top:12px}
+@media(max-width:600px){.lt-tool-panel .lt-probation-fields{grid-template-columns:1fr}}
+@media(max-width:380px){.lt-tool-panel .lt-probation-results{align-items:flex-start;flex-direction:column}.lt-tool-panel .lt-probation-days{flex:auto;border-left:0;border-top:1px solid #5b7bb6;padding:10px 0 0;align-items:flex-start}}
+</style>
 </head><body data-theme="dark"><header class="header-wrapper"><div class="brandbar"><div class="brand-left">Southwest C.A.R.E. Assistant</div><div class="brand-right"><span class="pill next-break-pill" id="nextBreakPill">Next Break</span><a aria-label="Open Call Timer" class="icon-btn call-timer-btn" href="https://domveenine.github.io/Shift-Call-Timer/" id="callTimerBtn" target="_blank" title="Open Call Timer">
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
 <circle cx="12" cy="12" r="10"></circle>
@@ -2205,7 +2270,7 @@ body.phone-directory-open{overflow:hidden;}
 </li>
 </ul>
 </div>
-</div><div aria-label="Search menu" class="search-dropdown" hidden="" id="searchDropdown" role="dialog"><input autocomplete="off" id="search" placeholder="Search this page..." type="search"/></div></div></div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Anchorage"><span class="label">Alaska</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div><div class="clock" data-tz="UTC"><span class="label">Zulu</span><span class="time">--:-- --</span></div></div></div><div class="subhead"><div class="subhead-row" style="justify-content:center; font-weight:700; font-size:15px; color:#fff; letter-spacing:0.5px; gap:30px; display:flex; flex-wrap:wrap;"><span style="margin:0 20px;">SATWN01CS - Phone</span><span style="margin:0 20px;">DALWN01MO - Mobile</span><span style="margin:0 20px;">DALWN01AA - Online</span></div><div class="pill-row"><span class="pill">Active Duty Military or Dependents?</span><span class="pill">Passengers &lt;12yrs Traveling Alone?</span><span class="pill">Rental Car?</span><span class="pill">Aware of Baggage Policy?</span><span class="pill">Chase Southwest Credit Card?</span></div></div><div aria-label="Quick actions" class="actionbar" role="region"><a class="btn" href="https://domveenine.github.io/airport-map/" id="airportMapOpen" rel="noopener noreferrer" role="button" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;" target="_blank">Airports</a><button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button><button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button><button aria-controls="modal-seatmap" aria-haspopup="dialog" class="btn" data-open="modal-seatmap">Seat Map</button><button aria-controls="modal-expires" aria-haspopup="dialog" class="btn" data-open="modal-expires">Expires</button><button aria-controls="quickPointsOverlay" aria-haspopup="dialog" class="btn" id="quickPointsButton" title="Open Points Calculator" type="button">Points</button><a class="btn leader-tools-btn" href="https://domveenine.github.io/leader-tools/" id="leaderToolsOpen" rel="noopener noreferrer" role="button" target="_blank">Leader Tools</a></div><div id="modal-seatmap-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-seatmap-title" data-overlay="modal-seatmap" hidden>
+</div><div aria-label="Search menu" class="search-dropdown" hidden="" id="searchDropdown" role="dialog"><input autocomplete="off" id="search" placeholder="Search this page..." type="search"/></div></div></div><div class="clockbar"><div class="clock-strip" id="tzClocks"><div class="clock" data-tz="Pacific/Honolulu"><span class="label">Hawai'i</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Anchorage"><span class="label">Alaska</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Los_Angeles"><span class="label">Pacific</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Denver"><span class="label">Mountain</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/Chicago"><span class="label">Central</span><span class="time">--:-- --</span></div><div class="clock" data-tz="America/New_York"><span class="label">Eastern</span><span class="time">--:-- --</span></div><div class="clock" data-tz="UTC"><span class="label">Zulu</span><span class="time">--:-- --</span></div></div></div><div class="subhead"><div class="subhead-row" style="justify-content:center; font-weight:700; font-size:15px; color:#fff; letter-spacing:0.5px; gap:30px; display:flex; flex-wrap:wrap;"><span style="margin:0 20px;">SATWN01CS - Phone</span><span style="margin:0 20px;">DALWN01MO - Mobile</span><span style="margin:0 20px;">DALWN01AA - Online</span></div><div class="pill-row"><span class="pill">Active Duty Military or Dependents?</span><span class="pill">Passengers &lt;12yrs Traveling Alone?</span><span class="pill">Rental Car?</span><span class="pill">Aware of Baggage Policy?</span><span class="pill">Chase Southwest Credit Card?</span></div></div><div aria-label="Quick actions" class="actionbar" role="region"><a class="btn" href="https://domveenine.github.io/airport-map/" id="airportMapOpen" rel="noopener noreferrer" role="button" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;" target="_blank">Airports</a><button aria-controls="modal-bagpolicy" aria-haspopup="dialog" class="btn" data-open="modal-bagpolicy">Bag Policy</button><button aria-controls="modal-compliance" aria-haspopup="dialog" class="btn" data-open="modal-compliance">Compliance</button><button aria-controls="modal-seatmap" aria-haspopup="dialog" class="btn" data-open="modal-seatmap">Seat Map</button><button aria-controls="modal-expires" aria-haspopup="dialog" class="btn" data-open="modal-expires">Expires</button><button aria-controls="quickPointsOverlay" aria-haspopup="dialog" class="btn" id="quickPointsButton" title="Open Points Calculator" type="button">Points</button><button class="btn leader-tools-btn" id="leaderToolsOpen" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="leaderToolsMenu">Leader Tools</button></div><div id="modal-seatmap-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-seatmap-title" data-overlay="modal-seatmap" hidden>
   <div class="modal" id="modal-seatmap">
     <div class="modal-header">
       <h3 class="modal-title" id="modal-seatmap-title">Seat Map</h3>
@@ -3906,4 +3971,365 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+
+<!-- Leader Tools dropdown is attached to the action button without changing the button's existing styling. -->
+<div id="leaderToolsMenu" class="lt-dropdown" role="menu" aria-label="Leader Tools" hidden>
+  <button type="button" role="menuitem" data-leader-tool="zulu">Zulu Converter</button>
+  <button type="button" role="menuitem" data-leader-tool="seconds">Second To Minutes</button>
+  <button type="button" role="menuitem" data-leader-tool="probation">Probation Extension</button>
+  <button type="button" role="menuitem" data-leader-tool="unr">Unapproved/Not Ready Time</button>
+  <div role="separator" class="lt-menu-divider"></div>
+  <a role="menuitem" href="https://domveenine.github.io/hearing-notes-form/" target="_blank" rel="noopener noreferrer">Hearing Notes Form <span class="lt-ext-icon" aria-hidden="true">↗</span></a>
+</div>
+<div class="lt-modal-overlay" id="leaderToolsCalculatorOverlay" role="dialog" aria-modal="true" aria-labelledby="leaderToolsDialogTitle" hidden>
+ <div class="lt-modal" id="leaderToolsDialog">
+  <div class="lt-modal-header">
+   <h2 class="lt-modal-title" id="leaderToolsDialogTitle">Leader Tools</h2>
+   <button type="button" class="lt-modal-close" id="leaderToolsClose">Close</button>
+  </div>
+  <div class="lt-modal-content">
+   <section class="lt-tool-panel" data-lt-panel="seconds" aria-label="Second To Minutes" hidden>
+    <p class="lt-intro">Convert seconds into minutes and seconds, including fractional seconds.</p>
+    <label class="lt-field" for="lt-seconds">Seconds
+     <input id="lt-seconds" type="number" min="0" step="any" inputmode="decimal" autocomplete="off" placeholder="e.g. 125" />
+    </label>
+    <p class="lt-error" id="lt-seconds-error" role="alert" hidden></p>
+    <div class="lt-time-result" aria-live="polite" aria-atomic="true">
+     <span class="lt-result-label">Minutes : Seconds</span>
+     <output class="lt-time-value" id="lt-seconds-output" for="lt-seconds">0:00</output>
+    </div>
+   </section>
+   <section class="lt-tool-panel" data-lt-panel="zulu" aria-label="Zulu Converter" hidden>
+    <p class="lt-intro">UTC / Zulu To U.S. Time Zones</p>
+    <div class="lt-fields">
+     <label class="lt-field" for="lt-zulu-time">Zulu Time (24-Hour)
+      <input id="lt-zulu-time" type="text" inputmode="text" maxlength="7" autocomplete="off" placeholder="e.g. 1430 or 14:30" spellcheck="false" />
+      <small>Enter HHMM, HH:MM, Or HHMMZ</small>
+     </label>
+     <label class="lt-field" for="lt-zulu-date">Zulu Date (UTC)
+      <input id="lt-zulu-date" type="date" />
+      <small>Needed For Daylight Saving Time</small>
+     </label>
+     <label class="lt-field wide" for="lt-zulu-zone">Convert To
+      <select id="lt-zulu-zone">
+       <option value="America/Los_Angeles">Pacific (PT)</option>
+       <option selected value="America/Denver">Mountain (MT)</option>
+       <option value="America/Chicago">Central (CT)</option>
+       <option value="America/New_York">Eastern (ET)</option>
+      </select>
+     </label>
+    </div>
+    <p class="lt-error" role="alert" id="lt-zulu-error" hidden></p>
+    <div class="lt-time-result" role="status" aria-live="polite" aria-atomic="true">
+     <span class="lt-result-label" id="lt-zulu-label">Mountain Time</span>
+     <output class="lt-time-value" id="lt-zulu-output" for="lt-zulu-time lt-zulu-date lt-zulu-zone">—</output>
+     <div class="lt-time-date" id="lt-zulu-output-date">Enter A Zulu Time To Convert</div>
+     <div class="lt-time-detail" id="lt-zulu-output-detail"></div>
+    </div>
+   </section>
+   <section class="lt-tool-panel" data-lt-panel="unr" aria-label="Unapproved/Not Ready Time" hidden>
+    <p class="lt-intro">Unavailable / Non-Ready</p>
+    <p class="lt-eyebrow">Inputs</p>
+    <div class="lt-fields">
+     <label class="lt-field" for="lt-unr-login">Initial Login Time Per Shift
+      <input id="lt-unr-login" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="e.g. 0:09:59" value="0:09:59" />
+      <small>H:MM:SS, Allowed Per Shift</small>
+     </label>
+     <label class="lt-field" for="lt-unr-shifts">Days Worked (Shifts)
+      <input id="lt-unr-shifts" type="number" min="0" step="1" autocomplete="off" placeholder="e.g. 16" />
+      <small>Total Shifts For The Period</small>
+     </label>
+     <label class="lt-field" for="lt-unr-actual">Actual UNR (Month-End)
+      <input id="lt-unr-actual" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="e.g. 5:24:00" />
+      <small>H:MM:SS, Total Recorded UNR</small>
+     </label>
+     <label class="lt-field" for="lt-unr-worked">Total Hours Worked
+      <input id="lt-unr-worked" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="e.g. 146:58:00" />
+      <small>H:MM:SS, Total Worked Time</small>
+     </label>
+    </div>
+    <p class="lt-error" id="lt-unr-error" role="alert" hidden></p>
+    <div class="lt-separator"></div>
+    <p class="lt-eyebrow">Calculated Results</p>
+    <div class="lt-results" aria-live="polite">
+     <div class="lt-result"><span class="lt-result-label">Gross UNR %</span><strong class="lt-result-number" id="lt-unr-gross">—</strong><span class="lt-result-sub">Before Excused Login Time</span></div>
+     <div class="lt-result lt-primary"><span class="lt-result-label">Net UNR %</span><strong class="lt-result-number" id="lt-unr-net-percent">—</strong><span class="lt-result-sub">After Excused Login Time</span></div>
+    </div>
+    <div class="lt-details">
+     <div class="lt-detail"><span>Initial Login Time Total</span><output id="lt-unr-excused">—</output></div>
+     <div class="lt-detail"><span>Net UNR (After Initial Login Time)</span><output id="lt-unr-net-duration">—</output></div>
+    </div>
+    <p class="lt-warning" id="lt-unr-warning" hidden></p>
+   </section>
+   <section class="lt-tool-panel" data-lt-panel="probation" aria-label="Probation Extension" hidden>
+    <p class="lt-intro">Adjust the probation end date based on time away from work.</p>
+    <div class="lt-fields lt-probation-fields">
+     <label class="lt-field" for="lt-pec-original">Original Probation End Date
+      <input id="lt-pec-original" type="date" autocomplete="off" />
+     </label>
+     <label class="lt-field" for="lt-pec-start">First Day Of Leave
+      <input id="lt-pec-start" type="date" autocomplete="off" />
+     </label>
+     <label class="lt-field" for="lt-pec-return">Return-To-Work Date
+      <input id="lt-pec-return" type="date" autocomplete="off" />
+     </label>
+    </div>
+    <p class="lt-error" id="lt-pec-error" role="alert" hidden></p>
+    <div class="lt-separator"></div>
+    <div class="lt-probation-results" aria-live="polite" aria-atomic="true">
+     <div>
+      <span class="lt-result-label">Revised Probation End Date</span>
+      <output class="lt-probation-date" id="lt-pec-result" for="lt-pec-original lt-pec-start lt-pec-return">—</output>
+      <div class="lt-probation-weekday" id="lt-pec-weekday"></div>
+     </div>
+     <div class="lt-probation-days">
+      <output class="lt-probation-count" id="lt-pec-days" for="lt-pec-start lt-pec-return">—</output>
+      <span class="lt-result-label">Days Added</span>
+     </div>
+    </div>
+    <p class="lt-probation-note">The return-to-work date is not counted as a day of leave.</p>
+   </section>
+  </div>
+  <div class="lt-modal-footer"><button type="button" class="lt-clear" id="leaderToolsClear">Clear Calculator</button></div>
+ </div>
+</div>
+
+<script id="leader-tools-dropdown-inline-script">
+(() => {
+ 'use strict';
+ const button=document.getElementById('leaderToolsOpen');
+ const menu=document.getElementById('leaderToolsMenu');
+ const overlay=document.getElementById('leaderToolsCalculatorOverlay');
+ const dialog=document.getElementById('leaderToolsDialog');
+ const title=document.getElementById('leaderToolsDialogTitle');
+ const closeButton=document.getElementById('leaderToolsClose');
+ const clearButton=document.getElementById('leaderToolsClear');
+ if(!button||!menu||!overlay) return;
+ const byId=id=>document.getElementById(id);
+ const names={seconds:'Second To Minutes',zulu:'Zulu Converter',unr:'Unapproved/Not Ready Time',probation:'Probation Extension'};
+ let active=null,lastFocus=null,priorOverflow='';
+ function moveMenu(){
+   const r=button.getBoundingClientRect();
+   const width=menu.offsetWidth || 255;
+   const height=menu.offsetHeight || 200;
+   menu.style.left=Math.max(8,Math.min(r.right-width,window.innerWidth-width-8))+'px';
+   let top=r.bottom+7;
+   if(top+height>window.innerHeight-8 && r.top>height+8)top=r.top-height-7;
+   menu.style.top=Math.max(8,top)+'px';
+ }
+ function hideMenu(restore=false){
+   menu.hidden=true;
+   button.setAttribute('aria-expanded','false');
+   if(restore)button.focus();
+ }
+ function showMenu(){
+   menu.hidden=false;
+   button.setAttribute('aria-expanded','true');
+   moveMenu();
+   const first=menu.querySelector('[role="menuitem"]');if(first)first.focus();
+ }
+ button.addEventListener('click',event=>{
+   event.stopPropagation();
+   if(menu.hidden)showMenu();else hideMenu(true);
+ });
+ menu.addEventListener('keydown',event=>{
+   const items=Array.from(menu.querySelectorAll('[role="menuitem"]'));
+   const idx=items.indexOf(document.activeElement);
+   if(event.key==='Escape'){event.preventDefault();hideMenu(true);}
+   if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+     event.preventDefault();items[(idx+(event.key==='ArrowDown'?1:-1)+items.length)%items.length].focus();
+   }
+   if(event.key==='Home'){event.preventDefault();items[0].focus();}
+   if(event.key==='End'){event.preventDefault();items[items.length-1].focus();}
+ });
+ document.addEventListener('pointerdown',event=>{
+   if(!menu.hidden && !menu.contains(event.target) && !button.contains(event.target))hideMenu();
+ });
+ window.addEventListener('resize',()=>{if(!menu.hidden)moveMenu();});
+ window.addEventListener('scroll',()=>{if(!menu.hidden)moveMenu();},true);
+ menu.querySelectorAll('[data-leader-tool]').forEach(item=>item.addEventListener('click',()=>{
+   const tool=item.dataset.leaderTool;
+   hideMenu();openCalculator(tool);
+ }));
+ menu.querySelector('a[href]').addEventListener('click',()=>hideMenu());
+ function openCalculator(tool){
+   if(!names[tool])return;
+   lastFocus=button;active=tool;
+   title.textContent=names[tool];
+   dialog.classList.toggle('lt-compact',tool==='seconds');
+   overlay.querySelectorAll('[data-lt-panel]').forEach(p=>p.hidden=p.dataset.ltPanel!==tool);
+   priorOverflow=document.body.style.overflow;
+   document.body.style.overflow='hidden';
+   overlay.hidden=false;
+   closeButton.focus();
+ }
+ function closeCalculator(){
+   if(overlay.hidden)return;
+   overlay.hidden=true;
+   document.body.style.overflow=priorOverflow;
+   active=null;
+   if(lastFocus)lastFocus.focus();
+ }
+ closeButton.addEventListener('click',closeCalculator);
+ overlay.addEventListener('pointerdown',e=>{if(e.target===overlay)closeCalculator();});
+ overlay.addEventListener('keydown',e=>{
+   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeCalculator();return;}
+   if(e.key==='Tab'){
+     const controls=Array.from(dialog.querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),a[href]'))
+       .filter(el=>el.getClientRects().length&&!el.closest('[hidden]'));
+     const first=controls[0],last=controls[controls.length-1];
+     if(!first)return;
+     if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+   }
+ });
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){hideMenu(true);}});
+ // Seconds to minutes: use hundredths precision like the original Leader Tools converter.
+ const secondsInput=byId('lt-seconds'),secondsOut=byId('lt-seconds-output'),secondsError=byId('lt-seconds-error');
+ const fmtInt=new Intl.NumberFormat('en-US',{maximumFractionDigits:0});
+ function secondsConvert(){
+   const raw=secondsInput.value.trim();
+   secondsInput.removeAttribute('aria-invalid');secondsError.hidden=true;secondsError.textContent='';
+   if(!raw){secondsOut.textContent='0:00';return;}
+   const seconds=Number(raw);
+   if(!Number.isFinite(seconds)||seconds<0){secondsOut.textContent='—';secondsError.textContent='Enter A Valid Number Of Seconds (0 Or More).';secondsError.hidden=false;secondsInput.setAttribute('aria-invalid','true');return;}
+   const hundredths=Math.round(seconds*100),mins=Math.floor(hundredths/6000),remain=hundredths%6000;
+   const whole=Math.floor(remain/100),fract=remain%100;
+   const suffix=fract?'.'+String(fract).padStart(2,'0').replace(/0$/,''):'';
+   secondsOut.textContent=fmtInt.format(mins)+':'+String(whole).padStart(2,'0')+suffix;
+ }
+ secondsInput.addEventListener('input',secondsConvert);secondsConvert();
+ // Zulu time: preserve UTC date and Intl's daylight saving aware conversion.
+ const zTime=byId('lt-zulu-time'),zDate=byId('lt-zulu-date'),zZone=byId('lt-zulu-zone');
+ const zError=byId('lt-zulu-error'),zLabel=byId('lt-zulu-label'),zOutput=byId('lt-zulu-output');
+ const zOutDate=byId('lt-zulu-output-date'),zDetail=byId('lt-zulu-output-detail');
+ const zoneNames={'America/Los_Angeles':'Pacific Time','America/Denver':'Mountain Time','America/Chicago':'Central Time','America/New_York':'Eastern Time'};
+ zDate.value=new Date().toISOString().slice(0,10);
+ function parseZuluClock(raw){
+   const text=raw.trim().replace(/Z$/i,'');let h,m;
+   if(/^\d{1,2}:[0-5]\d$/.test(text))[h,m]=text.split(':').map(Number);
+   else if(/^\d{3,4}$/.test(text)){h=Number(text.slice(0,-2));m=Number(text.slice(-2));}
+   else return null;
+   if(!Number.isInteger(h)||h>23||m>59)return null;
+   return {h,m};
+ }
+ function zuluInstant(dayText,h,m){
+   const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(dayText);
+   if(!match)return null;
+   const year=Number(match[1]),month=Number(match[2]),day=Number(match[3]);
+   const d=new Date(0);d.setUTCHours(0,0,0,0);d.setUTCFullYear(year,month-1,day);
+   if(d.getUTCFullYear()!==year||d.getUTCMonth()!==month-1||d.getUTCDate()!==day)return null;
+   d.setUTCHours(h,m,0,0);return d;
+ }
+ function zuluConvert(){
+   const zone=zZone.value,raw=zTime.value.trim();
+   zLabel.textContent=zoneNames[zone]||'Local Time';
+   zTime.removeAttribute('aria-invalid');zError.hidden=true;zError.textContent='';
+   zOutput.textContent='—';zOutDate.textContent='Enter A Zulu Time To Convert';zDetail.textContent='';
+   if(!raw)return;
+   const clock=parseZuluClock(raw);
+   if(!clock){zError.textContent='Enter A Valid 24-Hour Zulu Time, Such As 0930 Or 21:45.';zError.hidden=false;zTime.setAttribute('aria-invalid','true');zOutDate.textContent='Unable To Convert';return;}
+   const instant=zuluInstant(zDate.value,clock.h,clock.m);
+   if(!instant){zError.textContent='Select A Valid Zulu Date.';zError.hidden=false;zOutDate.textContent='Unable To Convert';return;}
+   const stamp=new Intl.DateTimeFormat('en-US',{timeZone:zone,hour:'numeric',minute:'2-digit',hour12:true,timeZoneName:'short'}).format(instant);
+   const displayDate=new Intl.DateTimeFormat('en-US',{timeZone:zone,weekday:'short',month:'short',day:'numeric',year:'numeric'}).format(instant);
+   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(instant);
+   const dayMap=new Map(parts.map(p=>[p.type,p.value]));
+   const localKey=dayMap.get('year')+'-'+dayMap.get('month')+'-'+dayMap.get('day');
+   const shift=localKey<zDate.value?' · Previous Day':localKey>zDate.value?' · Next Day':'';
+   zOutput.textContent=stamp;zOutDate.textContent=displayDate+shift;
+   zDetail.textContent='From '+String(clock.h).padStart(2,'0')+':'+String(clock.m).padStart(2,'0')+' Z On '+zDate.value;
+ }
+ [zTime,zDate,zZone].forEach(el=>{el.addEventListener('input',zuluConvert);el.addEventListener('change',zuluConvert);});zuluConvert();
+ // Unapproved / Not Ready: same gross and net formulas as the source calculator.
+ const u={login:byId('lt-unr-login'),shifts:byId('lt-unr-shifts'),actual:byId('lt-unr-actual'),worked:byId('lt-unr-worked')};
+ const uError=byId('lt-unr-error'),uWarn=byId('lt-unr-warning');
+ const uResult={gross:byId('lt-unr-gross'),netPercent:byId('lt-unr-net-percent'),excused:byId('lt-unr-excused'),netDuration:byId('lt-unr-net-duration')};
+ function parseDuration(s){
+   const match=/^(\d+):([0-5]?\d)(?::([0-5]?\d))?$/.exec(String(s).trim());
+   if(!match)return null;
+   const h=Number(match[1]),m=Number(match[2]),sec=match[3]===undefined?0:Number(match[3]);
+   if(!Number.isSafeInteger(h)||h>1000000||m>59||sec>59)return null;
+   const total=h*3600+m*60+sec;return Number.isSafeInteger(total)?total:null;
+ }
+ function formatDuration(s){
+   if(!Number.isFinite(s))return '—';
+   s=Math.round(s);const negative=s<0;s=Math.abs(s);
+   return (negative?'-':'')+Math.floor(s/3600)+':'+String(Math.floor((s%3600)/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+ }
+ function unrConvert(){
+   const login=parseDuration(u.login.value),actual=parseDuration(u.actual.value),worked=parseDuration(u.worked.value);
+   const shiftText=u.shifts.value.trim(),shifts=shiftText===''?null:Number(shiftText);
+   const validShifts=shifts!==null&&Number.isSafeInteger(shifts)&&shifts>=0&&shifts<=100000;
+   const problems=[];
+   if(u.login.value.trim()&&login===null)problems.push('Initial Login Time');
+   if(shiftText&&!validShifts)problems.push('Days Worked');
+   if(u.actual.value.trim()&&actual===null)problems.push('Actual UNR');
+   if(u.worked.value.trim()&&(worked===null||worked===0))problems.push('Total Hours Worked');
+   u.login.setAttribute('aria-invalid',String(!!u.login.value.trim()&&login===null));
+   u.shifts.setAttribute('aria-invalid',String(!!shiftText&&!validShifts));
+   u.actual.setAttribute('aria-invalid',String(!!u.actual.value.trim()&&actual===null));
+   u.worked.setAttribute('aria-invalid',String(!!u.worked.value.trim()&&(worked===null||worked===0)));
+   uError.hidden=problems.length===0;
+   uError.textContent=problems.length?'Check '+problems.join(', ')+'. Use H:MM:SS For Times, Whole Numbers For Shifts, And A Worked Time Above Zero.':'';
+   const ready=problems.length===0&&login!==null&&actual!==null&&worked!==null&&worked>0&&validShifts;
+   if(!ready){Object.values(uResult).forEach(el=>el.textContent='—');uWarn.hidden=true;return;}
+   const excused=login*shifts,net=actual-excused;
+   uResult.excused.textContent=formatDuration(excused);
+   uResult.netDuration.textContent=formatDuration(net);
+   uResult.gross.textContent=(actual/worked*100).toFixed(2)+'%';
+   uResult.netPercent.textContent=(net/worked*100).toFixed(2)+'%';
+   uWarn.hidden=net>=0;
+   uWarn.textContent=net<0?'Excused Login Time Exceeds Recorded UNR. Net Values Are Shown As Negative To Match The Spreadsheet Formula.':'';
+ }
+ Object.entries(u).forEach(([name,el])=>{
+   el.addEventListener('input',unrConvert);el.addEventListener('change',unrConvert);
+   if(name!=='shifts')el.addEventListener('blur',()=>{const secs=parseDuration(el.value);if(secs!==null){el.value=formatDuration(secs);unrConvert();}});
+ });unrConvert();
+ // Probation Extension: calendar days in UTC prevent DST from altering leave days.
+ // The return-to-work date is not itself counted as leave, consistent with Leader Tools.
+ const pec={original:byId('lt-pec-original'),start:byId('lt-pec-start'),back:byId('lt-pec-return')};
+ const pecResult=byId('lt-pec-result'),pecWeekday=byId('lt-pec-weekday');
+ const pecDays=byId('lt-pec-days'),pecError=byId('lt-pec-error');
+ const PEC_DAY_MS=86400000;
+ function pecCalendarDay(value){
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return null;
+   const parts=value.split('-').map(Number);
+   const d=new Date(0);d.setUTCHours(0,0,0,0);d.setUTCFullYear(parts[0],parts[1]-1,parts[2]);
+   if(d.getUTCFullYear()!==parts[0]||d.getUTCMonth()!==parts[1]-1||d.getUTCDate()!==parts[2])return null;
+   return d.getTime()/PEC_DAY_MS;
+ }
+ function pecFormatDay(day,opts){
+   return new Intl.DateTimeFormat('en-US',Object.assign({timeZone:'UTC'},opts)).format(new Date(day*PEC_DAY_MS));
+ }
+ function probationConvert(){
+   const original=pecCalendarDay(pec.original.value);
+   const start=pecCalendarDay(pec.start.value);
+   const back=pecCalendarDay(pec.back.value);
+   pecResult.textContent='—';pecWeekday.textContent='';pecDays.textContent='—';
+   pecError.textContent='';pecError.hidden=true;
+   pec.back.removeAttribute('aria-invalid');
+   if(original===null||start===null||back===null)return;
+   if(back<=start){
+     pecError.textContent='Return-To-Work Date Must Be After The First Day Of Leave.';
+     pecError.hidden=false;pec.back.setAttribute('aria-invalid','true');return;
+   }
+   const leaveDays=back-start;
+   const revised=original+leaveDays;
+   pecResult.textContent=pecFormatDay(revised,{month:'long',day:'numeric',year:'numeric'});
+   pecWeekday.textContent=pecFormatDay(revised,{weekday:'long'});
+   pecDays.textContent=String(leaveDays);
+ }
+ Object.values(pec).forEach(el=>{
+   el.addEventListener('input',probationConvert);
+   el.addEventListener('change',probationConvert);
+ });probationConvert();
+ clearButton.addEventListener('click',()=>{
+   if(active==='seconds'){secondsInput.value='';secondsConvert();secondsInput.focus();}
+   if(active==='zulu'){zTime.value='';zDate.value=new Date().toISOString().slice(0,10);zZone.value='America/Denver';zuluConvert();zTime.focus();}
+   if(active==='unr'){u.login.value='0:09:59';u.shifts.value='';u.actual.value='';u.worked.value='';unrConvert();u.shifts.focus();}
+   if(active==='probation'){Object.values(pec).forEach(input=>input.value='');probationConvert();pec.original.focus();}
+ });
+})();
+</script>
 </body></html>
